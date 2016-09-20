@@ -25,14 +25,15 @@ $.Team = function() {
 
 
 $.Team.prototype.addPlayer = function (player) {
-    this.players.push(player.id, player);
+    this.players.push(player);
     this.playerCount++;
     console.log("adding " + player.id + " " + player.attack);
     this.updateSkills();
 
 };
 $.Team.prototype.removePlayer = function (player) {
-    var index = this.players.indexOf(player.id);
+    //var index = this.players.find(x => x.id === player.id);
+    var index = this.players.indexOf(player);
     if (index != -1) {
         this.players.splice(index, 1);
         this.playerCount--;
@@ -56,9 +57,9 @@ $.Team.prototype.updateSkills = function () {
         this.totalStrikerSkill += this.strikers[i];
     }
 
-
+    this.totalStrikerSkill = 0;
     for (var i=0; i<this.playerCount; i++) {
-        this.totalStrikerSkill = parseInt(this.players[i]["attack"]);
+        this.totalStrikerSkill += this.players[i].attack;
         console.log(JSON.stringify(this.players[i]));
         console.log(JSON.stringify(this.players[i].attack));
     }

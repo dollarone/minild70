@@ -74,14 +74,14 @@ $.update = function () {
             if ($.current_player != 0) {
                 $.current_player--;
                 $.team.removePlayer($.players[$.current_player]);
-                $.timeout = 100;
+                $.timeout = 50;
             }
         }
         else if (controls.right) {
             if ($.current_player < $.players.length) {
                 $.team.addPlayer($.players[$.current_player]);
                 $.current_player++;
-                $.timeout = 100;
+                $.timeout = 50;
             }
         }
     }
@@ -113,8 +113,8 @@ $.generateRandomObjects = function () {
         $.players.push(new $.Player(false, true));
     }
     for (var i=0; i<4; i++) {
-        $.last_added_player = new $.Player(false, false);
-        $.players.push($.last_added_player);
+        
+        $.players.push(new $.Player(false, false));
     }
     
     
