@@ -89,6 +89,14 @@ $.generateRandomObjects = function () {
     $.table.addTeam($.team3);
     $.table.addTeam($.team4);
     $.table.updateTable();
+
+    $.season = new $.Season(4);
+    $.season.addTeam($.team1);
+    $.season.addTeam($.team2);
+    $.season.addTeam($.team3);
+    $.season.addTeam($.team4);
+    $.season.generateMatches();
+    $.season.render();
 };
 
 $.generateRandomTeam = function() {
@@ -186,6 +194,7 @@ $.render = function () {
         $.team4.render(5, 200);
         $.match.render(5, 370);        
         $.table.render();
+        //$.season.render();
     }
 };
 
