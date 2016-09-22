@@ -15,9 +15,9 @@ $.Event.prototype.addEvent = function (text) {
 };
 $.Event.prototype.render = function () {
     var buffer = "<ul>";
-    for (var i=0; i<this.Event; i++) {
+    for (var i=0; i<this.events; i++) {
         if( this.list[i].fade > 0) {
-            buffer += "<li style='color: " + $.colors["seablue"] + "; opacity:" + this.list[i].fade/100 + ";'>" + this.list[i].text + "</li>";
+            buffer += "<li style='color: " + $.colors["skyblue"] + "; opacity:" + this.list[i].fade/100 + ";'>" + this.list[i].text + "</li>";
         }
     }
     buffer += "</ul>";
@@ -31,7 +31,7 @@ $.Event.prototype.getAll = function () {
 
 
 
-$.Event.prototype.update = function (id) {
+$.Event.prototype.update = function () {
     for (var i=0; i<this.events; i++) {
         if (this.list[i].fade > 0) {
             this.list[i].fade -= 0.5;

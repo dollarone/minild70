@@ -5,6 +5,13 @@ var $ = {};
 $.width = 800;
 $.height = 500;
 
+$.teamNames = {
+    0: "London FC", 
+    1:"Rubberballs FC", 
+    2:"Bargelona FC", 
+    3:"Sadboys United"
+};
+
 $.colors = {
     black: 'rgba(0, 0, 0, 1)',
     gray: 'rgba(157, 157, 157, 1)',
@@ -52,6 +59,8 @@ $.init = function () {
     $.generateRandomObjects();
     $.map_x = 80;
     $.map_y = 50;
+
+    $.renderMatches = false;
     $.loop();
 };
 
@@ -60,6 +69,62 @@ $.loop = function () {
     $.update();
 
     window.requestAnimFrame($.loop);
+};
+
+
+$.generateRandomObjects = function () {
+    $.entities = [];
+    $.team1 = $.generateRandomTeam();
+    $.team2 = $.generateRandomTeam();
+    $.team3 = $.generateRandomTeam();
+    $.team4 = $.generateRandomTeam();
+    
+    $.events = new $.Event();
+    $.events.addEvent("test");
+    $.match = new $.Match($.team1, $.team2, false);
+
+    $.table = new $.Table(4);
+    $.table.addTeam($.team1);
+    $.table.addTeam($.team2);
+    $.table.addTeam($.team3);
+    $.table.addTeam($.team4);
+    $.table.updateTable();
+};
+
+$.generateRandomTeam = function() {
+
+    var team = new $.Team();
+
+    if (0 === $.util.randomIntInRange(0,6)) {
+        $.players.push(new $.Player(true, true));
+        $.players.push(new $.Player(false, false));
+        team.addPlayer($.players[$.current_player]);
+        team.setKeeper($.players[$.current_player++]);
+
+        team.addPlayer($.players[$.current_player]);
+        team.setDefender($.players[$.current_player++]);
+    }
+    else {
+        $.players.push(new $.Player(true, false));
+        $.players.push(new $.Player(false, true));
+        team.addPlayer($.players[$.current_player]);
+        team.setKeeper($.players[$.current_player++]);
+
+        team.addPlayer($.players[$.current_player]);
+        team.setDefender($.players[$.current_player++]);
+    }
+    for (var i=0; i<3; i++) {
+        
+        $.players.push(new $.Player(false, false));
+    }
+    team.addPlayer($.players[$.current_player]);
+    team.setMidfielder($.players[$.current_player++]);
+    team.addPlayer($.players[$.current_player]);
+    team.setMidfielder($.players[$.current_player++]);
+    team.addPlayer($.players[$.current_player]);
+    team.setStriker($.players[$.current_player++]);
+
+    return team;
 };
 
 $.update = function () {
@@ -92,88 +157,36 @@ $.update = function () {
             }
         }
     }
+    if ($.renderMatches) {
+        $.match.update($.timer);
+    }
+    else {
+        $.match.fastSim();
+    }
+
+    $.events.update();
 };
 
 $.render = function () {
     $.Draw.clear();
 
     for (var i=0; i<$.players.length; i++) {
-        $.players[i].render(30, 50 + 30* i);
+  //      $.players[i].render(30, 50 + 30* i);
     }
-
-    $.team1.render(5, 450);
-    $.team2.render(5, 500);
-};
-
-
-$.generateRandomObjects = function () {
-    $.entities = [];
-    $.team1  = new $.Team();
-    $.team2  = new $.Team();
-
-//    $.map = new $.Map(202,127, $.colors);
-
-    if (0 === $.util.randomIntInRange(0,6)) {
-        $.players.push(new $.Player(true, true));
-        $.team1.addPlayer($.players[0]);
-        $.team1.setKeeper($.players[0]);
-
-        $.players.push(new $.Player(false, false));
-        $.team1.addPlayer($.players[1]);
-        $.team1.setDefender($.players[1]);
+    if ($.renderMatches) {
+        $.team1.render(5, 450);
+        $.team2.render(5, 500);
+        $.match.render(5, 370);
+        $.events.render();
     }
     else {
-        $.players.push(new $.Player(true, false));
-        $.team1.addPlayer($.players[0]);
-        $.team1.setKeeper($.players[0]);
-
-        $.players.push(new $.Player(false, true));
-        $.team1.addPlayer($.players[1]);
-        $.team1.setDefender($.players[1]);
+        $.team1.render(5, 450);
+        $.team2.render(5, 500);
+        $.team3.render(5, 150);
+        $.team4.render(5, 200);
+        $.match.render(5, 370);        
+        $.table.render();
     }
-    for (var i=0; i<3; i++) {
-        
-        $.players.push(new $.Player(false, false));
-    }
-    $.team1.addPlayer($.players[2]);
-    $.team1.setMidfielder($.players[2]);
-    $.team1.addPlayer($.players[3]);
-    $.team1.setMidfielder($.players[3]);
-    $.team1.addPlayer($.players[4]);
-    $.team1.setStriker($.players[4]);
-
-//    $.map = new $.Map(202,127, $.colors);
-
-    if (0 === $.util.randomIntInRange(0,6)) {
-        $.players.push(new $.Player(true, true));
-        $.players.push(new $.Player(false, false));
-        $.team2.addPlayer($.players[5]);
-        $.team2.setKeeper($.players[5]);
-
-        $.team2.addPlayer($.players[6]);
-        $.team2.setDefender($.players[6]);
-    }
-    else {
-        $.players.push(new $.Player(true, false));
-        $.players.push(new $.Player(false, true));
-        $.team2.addPlayer($.players[5]);
-        $.team2.setKeeper($.players[5]);
-
-        $.team2.addPlayer($.players[6]);
-        $.team2.setDefender($.players[6]);
-    }
-    for (var i=0; i<3; i++) {
-        
-        $.players.push(new $.Player(false, false));
-    }
-    $.team2.addPlayer($.players[7]);
-    $.team2.setMidfielder($.players[7]);
-    $.team2.addPlayer($.players[8]);
-    $.team2.setMidfielder($.players[8]);
-    $.team2.addPlayer($.players[9]);
-    $.team2.setStriker($.players[9]);
-    
-    
 };
 
 window.addEventListener('load', $.init, false);

@@ -1,8 +1,12 @@
 "use strict";
 
+$.staticTeamId = 0;
+
 $.Team = function() {
     this.color = 'rgba(3, 3, 3, 1)';
     var extra = 0;
+    this.id = $.staticTeamId++;
+    this.name = $.teamNames[this.id];
 
     this.players = [];
     this.playerCount = 0;

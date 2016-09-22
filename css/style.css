@@ -21,6 +21,10 @@ div {
 
 }
 
+#events {
+    font-size: 40px;
+}
+
 #chat {
     text-align: center;
 }
