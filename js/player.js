@@ -1,9 +1,12 @@
 "use strict";
 
-var static_id = 0;
+$.staticPlayerId = 0;
 
 $.Player = function(keeper, star) {
-    this.id = static_id++;
+    this.id = $.staticPlayerId++;
+    this.name = $.playerNames[this.id];
+    this.position = "Substitute";
+
     this.color = 'rgba(3, 3, 3, 1)';
     var extra = 0;
     if (star) {

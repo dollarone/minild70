@@ -12,6 +12,7 @@ $.Match = function(homeTeam, awayTeam, render) {
     this.matchEvents = {};
     this.possession = this.calcPossesionAndGenerateEvents();
     this.matchState = 0;
+    this.result = '?';
     // 0 = not started
     // 1 = first half
     // 2 = first half ends
@@ -25,8 +26,9 @@ $.Match = function(homeTeam, awayTeam, render) {
     this.matchEvents[(91 + parseInt(Math.abs(this.possession/2)))] = "secondHalfEnds";
     this.timeout = 0;
     this.timeoutCount = 200;
-    if (!render)
+    if (!render) {
         this.timeoutCount = 0;
+    }
 };
 
 $.Match.prototype.update = function (timer) {
@@ -75,6 +77,7 @@ $.Match.prototype.update = function (timer) {
 };
 
 $.Match.prototype.fastSim = function () {
+    console.log("fastsimming " + this.homeTeam.name + "-" + this.awayTeam.name);
     while(this.matchState!=6) {
         if (this.matchState === 0) {
             this.matchState = 1;
@@ -98,10 +101,49 @@ $.Match.prototype.fastSim = function () {
                 }
                 if (event === "secondHalfEnds") {
                     this.matchState = 6;
+                    this.saveResult();
                 }
             }
         }
     }
+};
+
+
+$.Match.prototype.saveResult = function() {
+
+    console.log("saving res");
+
+    if (this.homeTeamGoals > this.awayTeamGoals) {
+        this.result = 'H';
+        this.homeTeam.points += 3;
+        this.homeTeam.wins++;
+        this.awayTeam.losses++;
+    }
+    else if (this.homeTeamGoals < this.awayTeamGoals) {
+        this.result = 'A';
+        this.awayTeam.points += 3;
+        this.awayTeam.wins++;
+        this.homeTeam.losses++;
+    }
+    else {
+        this.result = 'D';
+        this.homeTeam.points += 1;
+        this.awayTeam.points += 1;
+        this.homeTeam.draws++;
+        this.awayTeam.draws++;
+    }
+    // TODO: maybe refactor this if we want to access previous state
+
+    console.log("res: " + this.result);
+
+    this.homeTeam.goalsFor += this.homeTeamGoals;
+    this.homeTeam.goalsAgainst += this.awayTeamGoals;
+    this.homeTeam.goalsDiff = this.homeTeam.goalsFor - this.homeTeam.goalsAgainst;
+
+    this.awayTeam.goalsFor += this.awayTeamGoals;
+    this.awayTeam.goalsAgainst += this.homeTeamGoals;
+    this.awayTeam.goalsDiff = this.awayTeam.goalsFor - this.awayTeam.goalsAgainst;
+
 };
 
 $.Match.prototype.render = function (x, y) {
@@ -110,6 +152,8 @@ $.Match.prototype.render = function (x, y) {
 };
 
 $.Match.prototype.calcPossesionAndGenerateEvents = function () {
+
+    this.matchEvents['88'] = "regularChanceHome";
 
     if (this.homeTeam.totalMidfielderSkill === this.awayTeam.totalMidfielderSkill) {
         this.matchEvents['11'] = "regularChanceHome";

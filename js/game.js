@@ -5,6 +5,40 @@ var $ = {};
 $.width = 800;
 $.height = 500;
 
+$.playerNames = {
+    0:"John Bender", 
+    1:"Lars Bensen",
+    2:"Frank Larsen", 
+    3:"Viggo Johnson",
+    4:"Petter Solberg", 
+    5:"Terje Bakken",
+    6:"Karl Knasen", 
+    7:"Jens Bekken",
+    8:"Per Storberg", 
+    9:"Freddy Larsson",
+    10:"Gunnar Olsen", 
+    11:"Patrick Berget",
+    12:"Odd Martin Lange", 
+    13:"Frode Johansen",
+    14:"Aage Andersen", 
+    15:"David Abrahamsen",
+    16:"Alex Linsen", 
+    17:"Adam Egersen",
+    18:"Guttorm Igersen", 
+    19:"Alf Egilsen",
+    20:"Steinar Hansen", 
+    21:"Agnar Berg",
+    22:"Jostein Hagen", 
+    23:"Aksel Kolle",
+    24:"Albert Karlsen", 
+    25:"Jan Pedersen",
+    26:"Joakim Smith", 
+    27:"Jarle Nilsen",
+    28:"Johannes Kristiansen", 
+    29:"Inge Jensen",
+    30:"Ingolf Halvorsen"
+};
+
 $.teamNames = {
     0:"London Inc.", 
     1:"FC Rubberballs", 
@@ -90,7 +124,7 @@ $.generateRandomObjects = function () {
     $.events = new $.Event();
     $.events.addEvent("test");
     $.match = new $.Match($.team1, $.team2, false);
-
+/*
     $.table = new $.Table(6);
     $.table.addTeam($.team1);
     $.table.addTeam($.team2);
@@ -101,8 +135,8 @@ $.generateRandomObjects = function () {
     $.table.addTeam($.team7);
     $.table.addTeam($.team8);
     $.table.updateTable();
-
-    $.season = new $.Season(6);
+*/
+    $.season = new $.Season(4);
     $.season.addTeam($.team1);
     $.season.addTeam($.team2);
     $.season.addTeam($.team3);
@@ -112,7 +146,10 @@ $.generateRandomObjects = function () {
     $.season.addTeam($.team7);
     $.season.addTeam($.team8);
     $.season.generateMatches();
-    $.season.render();
+    $.season.simSeason();
+    $.team1.render(10,10);
+
+  //  $.table.updateTable();
 };
 
 $.generateRandomTeam = function() {
@@ -185,7 +222,7 @@ $.update = function () {
         $.match.update($.timer);
     }
     else {
-        $.match.fastSim();
+        //$.match.fastSim();
     }
 
     $.events.update();
@@ -203,13 +240,14 @@ $.render = function () {
         $.match.render(5, 370);
         $.events.render();
     }
-    else {
+    else {/*
         $.team1.render(5, 450);
         $.team2.render(5, 500);
         $.team3.render(5, 150);
         $.team4.render(5, 200);
+        */
         $.match.render(5, 370);        
-        $.table.render();
+        ///$.table.render();
         //$.season.render();
     }
 };

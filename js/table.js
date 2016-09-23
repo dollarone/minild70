@@ -9,7 +9,7 @@ $.Table = function(teamCount) {
 
 $.Table.prototype.addTeam = function (team) {
 	if (this.teamCount < this.maxTeamCount) {
-		this.teams[team.id] = {id:team.id, name:team.name, team:team, goalsDiff:$.util.randomIntInRange(1,9), goalsFor:$.util.randomIntInRange(0,9), goalsAgainst:0, points:7};
+		this.teams[team.id] = {id:team.id, name:team.name, team:team, goalsDiff:0, goalsFor:0, goalsAgainst:0, points:0};
 		this.teamCount++;
 	}
 };
@@ -21,7 +21,7 @@ $.Table.prototype.render = function () {
 	table.forEach(function(key) {
 		var team = this.teams[key];
 		buffer += "<li style='color: " + $.colors["skyblue"] + ";'>"  + " " + team.team.name + 
-		" " + team.goalsFor + " " + team.goalsAgainst + " " + team.goalsDiff + " ====  " + team.points + "</li>";
+		" " + team.goalsFor + " " + team.goalsAgainst + " " + team.goalsDiff + " =X=  " + team.points + "</li>";
 	}, this);
 
     buffer += "</ul>";
