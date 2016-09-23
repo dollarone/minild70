@@ -6,10 +6,14 @@ $.width = 800;
 $.height = 500;
 
 $.teamNames = {
-    0: "London FC", 
-    1:"Rubberballs FC", 
+    0:"London Inc.", 
+    1:"FC Rubberballs", 
     2:"Bargelona FC", 
-    3:"Sadboys United"
+    3:"Sadboys United",
+    4:"Celtic Rangers",
+    5:"Sherwood Forest",
+    6:"Athletico Real",
+    7:"Woolwich Gunners"
 };
 
 $.colors = {
@@ -78,23 +82,35 @@ $.generateRandomObjects = function () {
     $.team2 = $.generateRandomTeam();
     $.team3 = $.generateRandomTeam();
     $.team4 = $.generateRandomTeam();
+    $.team5 = $.generateRandomTeam();
+    $.team6 = $.generateRandomTeam();
+    $.team7 = $.generateRandomTeam();
+    $.team8 = $.generateRandomTeam();
     
     $.events = new $.Event();
     $.events.addEvent("test");
     $.match = new $.Match($.team1, $.team2, false);
 
-    $.table = new $.Table(4);
+    $.table = new $.Table(6);
     $.table.addTeam($.team1);
     $.table.addTeam($.team2);
     $.table.addTeam($.team3);
     $.table.addTeam($.team4);
+    $.table.addTeam($.team5);
+    $.table.addTeam($.team6);
+    $.table.addTeam($.team7);
+    $.table.addTeam($.team8);
     $.table.updateTable();
 
-    $.season = new $.Season(4);
+    $.season = new $.Season(6);
     $.season.addTeam($.team1);
     $.season.addTeam($.team2);
     $.season.addTeam($.team3);
     $.season.addTeam($.team4);
+    $.season.addTeam($.team5);
+    $.season.addTeam($.team6);
+    $.season.addTeam($.team7);
+    $.season.addTeam($.team8);
     $.season.generateMatches();
     $.season.render();
 };
