@@ -87,29 +87,37 @@ var dt = 0;
 var controls = { left: false, right: false, jump: false };
 
 $.init = function () {
+    /*
     $.canvas = document.getElementsByTagName('canvas')[0];
     $.canvas.width = $.width;
     $.canvas.height = $.height;
     $.ctx = $.canvas.getContext('2d');
-
+*/
     $.players = [];
     
     $.generateRandomObjects();
-    $.map_x = 80;
-    $.map_y = 50;
-
+  
     $.renderMatches = false;
     $.loop();
 };
 
-$.loop = function () {
+$.sloop = function () {
     $.render();
     $.update();
 
-    window.requestAnimFrame($.loop);
+//    window.requestAnimFrame($.loop);
+    $.loop();
 };
 
+$.loop = function () {
 
+var FPS = 60;
+setInterval(function() {
+  $.render();
+  $.update();
+  //draw();
+}, 1000/FPS);
+};
 $.generateRandomObjects = function () {
     $.entities = [];
     $.team1 = $.generateRandomTeam();
@@ -121,6 +129,7 @@ $.generateRandomObjects = function () {
     $.team7 = $.generateRandomTeam();
     $.team8 = $.generateRandomTeam();
     
+    $.team1.setMy(false);
     $.events = new $.Event();
     $.events.addEvent("test");
     $.match = new $.Match($.team1, $.team2, false);
@@ -174,7 +183,7 @@ $.generateRandomTeam = function() {
         team.addPlayer($.players[$.current_player]);
         team.setDefender($.players[$.current_player++]);
     }
-    for (var i=0; i<3; i++) {
+    for (var i=0; i<4; i++) {
         
         $.players.push(new $.Player(false, false));
     }
@@ -184,6 +193,8 @@ $.generateRandomTeam = function() {
     team.setMidfielder($.players[$.current_player++]);
     team.addPlayer($.players[$.current_player]);
     team.setStriker($.players[$.current_player++]);
+    team.addPlayer($.players[$.current_player]);
+    team.setSub($.players[$.current_player++]);
 
     return team;
 };
@@ -229,7 +240,7 @@ $.update = function () {
 };
 
 $.render = function () {
-    $.Draw.clear();
+   // $.Draw.clear();
 
     for (var i=0; i<$.players.length; i++) {
   //      $.players[i].render(30, 50 + 30* i);
