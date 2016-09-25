@@ -203,7 +203,7 @@ $.Team.prototype.removePlayer = function (player) {
 $.Team.prototype.updateSkills = function () {
 
     if (this.keeperCount > 0) {
-        this.totalKeeperSkill = this.keeper.keeper;
+        this.totalKeeperSkill = this.keeper[0].keeper;
     }
     this.totalDefenderSkill = 0;
     for (var i=0; i<this.defenderCount; i++) {
@@ -269,6 +269,9 @@ $.Team.prototype.render = function (x, y) {
     }, this);
 
     buffer += "</table>";
+    buffer += "Totals: <table><tr>><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><tr>";
+    buffer += "<tr><td>" + this.totalKeeperSkill + "</td><td>" + this.totalDefenderSkill + "</td><td>" +
+        this.totalMidfielderSkill + "</td><td>" + this.totalStrikerSkill + "</td></tr>";
     document.getElementById('team').innerHTML = buffer + this.foo;
     this.foo += "a";
     

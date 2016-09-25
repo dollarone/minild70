@@ -111,12 +111,12 @@ $.sloop = function () {
 
 $.loop = function () {
 
-var FPS = 60;
-setInterval(function() {
-  $.render();
-  $.update();
-  //draw();
-}, 1000/FPS);
+    var FPS = 30;
+    setInterval(function() {
+      $.render();
+      $.update();
+      //draw();
+    }, 1000/FPS);
 };
 $.generateRandomObjects = function () {
     $.entities = [];
@@ -129,7 +129,14 @@ $.generateRandomObjects = function () {
     $.team7 = $.generateRandomTeam();
     $.team8 = $.generateRandomTeam();
     
-    $.team1.setMy(false);
+    $.team2.setMy(false);
+    $.team3.setMy(false);
+    $.team4.setMy(false);
+    $.team5.setMy(false);
+    $.team6.setMy(false);
+    $.team7.setMy(false);
+    $.team8.setMy(false);
+
     $.events = new $.Event();
     $.events.addEvent("test");
     $.match = new $.Match($.team1, $.team2, false);
@@ -155,10 +162,38 @@ $.generateRandomObjects = function () {
     $.season.addTeam($.team7);
     $.season.addTeam($.team8);
     $.season.generateMatches();
-    $.season.simSeason();
+    
     $.team1.render(10,10);
 
+    $.addPlayNextMatchButton();
+    $.addPlaySeasonButton();
+
   //  $.table.updateTable();
+};
+
+$.addPlaySeasonButton = function() {
+
+    var buffer = '<button onclick="$.playSeason()">Play season</button>';
+
+    document.getElementById('playSeasonButton').innerHTML = buffer;    
+
+};
+
+$.addPlayNextMatchButton = function() {
+
+    var buffer = '<button onclick="$.playNextMatchday()">Play next match</button>';
+
+    document.getElementById('playNextMatchButton').innerHTML = buffer;    
+
+};
+
+$.playNextMatchday = function() {
+    $.season.simNextMatchday();
+
+};
+
+$.playSeason = function() {
+    $.season.simSeason();
 };
 
 $.generateRandomTeam = function() {
@@ -259,7 +294,7 @@ $.render = function () {
         */
         $.match.render(5, 370);        
         ///$.table.render();
-        //$.season.render();
+        $.season.render();
     }
 };
 

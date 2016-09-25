@@ -138,6 +138,11 @@ $.Season.prototype.simSeason = function() {
 	}
 };
 
+
+$.Season.prototype.simNextMatchday = function() {
+	this.simMatchDay(this.matchDaysPlayed);
+};
+
 $.Season.prototype.simMatchDay = function(day) {
 	for (var i=0; i<this.matchDay[day].length; i++) {
 		console.log("sim matchday " + day + ": " + this.matchDay[day][i].homeTeam.name + "-" + this.matchDay[day][i].awayTeam.name );	

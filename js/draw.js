@@ -22,7 +22,7 @@ $.Draw = {
     },
     fillText: function(text, x, y, font) {
 
-        $.ctx.font=font;
+        //$.ctx.font=font;
         $.ctx.fillText(text, x, y);
     }
 };

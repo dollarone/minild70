@@ -147,8 +147,21 @@ $.Match.prototype.saveResult = function() {
 };
 
 $.Match.prototype.render = function (x, y) {
-    $.Draw.fillText("Home: " + this.homeTeamGoals + "\nAway: " + this.awayTeamGoals + " Time: " + this.matchTimePassed + " MatchState: " + this.matchState, x, y, "30px Arial");
+   // $.Draw.fillText("Home: " + this.homeTeamGoals + "\nAway: " + this.awayTeamGoals + " Time: " + this.matchTimePassed + " MatchState: " + this.matchState, x, y, "30px Arial");
     
+};
+
+
+$.Match.prototype.updateSkillsBeforeMatch = function () {
+    /*
+    if (this.homeTeam.my) {
+        this.hometeam.totalDefenderSkill = $.team1.totalKeeperSkill;
+        this.hometeam.totalDefenderSkill = $.team1.totalDefenderSkill;
+        this.hometeam.totalDefenderSkill = $.team1.totalMidfielderSkill;
+        this.hometeam.totalDefenderSkill = $.team1.totalStrikerSkill;
+
+    }
+    */
 };
 
 $.Match.prototype.calcPossesionAndGenerateEvents = function () {

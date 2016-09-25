@@ -16,8 +16,8 @@ somnething like : enter manager name ...  enter team name: ... You have just tak
 
 
 You can view your squad by selecting squad <--- (highlight). Here you can renew contracts, sell players who have offers (by clicking "accept offer") and set their positions. 
-
-In the "view players" tab, you can view all players, and see who has a team or not. You can offer contracts to the ones not on a team, and buy players with an asking price (some players are not for sale).  Please observe your total cash (highlight) and yearly budget (highlight) - if either goes into negative, you are fired.
+I
+n the "view players" tab, you can view all players, and see who has a team or not. You can offer contracts to the ones not on a team, and buy players with an asking price (some players are not for sale).  Please observe your total cash (highlight) and yearly budget (highlight) - if either goes into negative, you are fired.
 So! How do you win games?
 Ah! that part, at least, is easy. It's 2016 and statistics have finally conquered football completely. Each match can be totally predicted by the various players on each team and their attributes. The way it works, according to John Gunnarsen, a stats expert, is thus:
 * Possession is determined by the player whose midfielders have more midfield stats. If they are equal, possession is shared. If one team has 5 or more points than the other, they will DOMINATE the game. 
@@ -31,3 +31,14 @@ You can choose where your 5 players should play.
 
 
 bonus: injuries, penalties, more free kicks. headers. traits. cards! but maybe simple is good
+
+
+
+
+have newspaper clippings as "cutscenes" for intro/updates/game over
+
+some kind of helper doing the tutorial?
+
+next: view other team. play a match. make any player clickable and have a "highlighted player" section
+next: looks like the matches are using static value. need to look up current stats (for player team at least)
+next: verify which values are being used for match sim!
