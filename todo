@@ -1,0 +1,44 @@
+done Display season somehow
+done Simulate all matches
+done Update and check that table is correct
+mark player's matches to render
+then: 
+choose team
+buy/sell players
+gfx
+music
+intro: scenarios, with 4 teams, 6 teams, 8 teams and maybe even 20 teams
+bonus: multi-season (or default?)
+
+somnething like : enter manager name ...  enter team name: ... You have just taken over XX, a team who in their panic have hired you, a completely unproven manager! After last year's disappointing season, XX's only star player, Seb Larson, left last week, and there are rumours that the rest of the players would rather like to leave as well.
+
+// Well, except for Frank Johnson, who last season spent all his time on the subs bench. 
+
+
+You can view your squad by selecting squad <--- (highlight). Here you can renew contracts, sell players who have offers (by clicking "accept offer") and set their positions. 
+I
+n the "view players" tab, you can view all players, and see who has a team or not. You can offer contracts to the ones not on a team, and buy players with an asking price (some players are not for sale).  Please observe your total cash (highlight) and yearly budget (highlight) - if either goes into negative, you are fired.
+So! How do you win games?
+Ah! that part, at least, is easy. It's 2016 and statistics have finally conquered football completely. Each match can be totally predicted by the various players on each team and their attributes. The way it works, according to John Gunnarsen, a stats expert, is thus:
+* Possession is determined by the player whose midfielders have more midfield stats. If they are equal, possession is shared. If one team has 5 or more points than the other, they will DOMINATE the game. 
+* A team with possession advantage, will get 2 chances, while the other gets 1. If a team is DOMINATING, it will take all 3 chances, leaving none for the opponent.
+* In addition to this, the home team always gets one extra chance.
+* A chance is scored if the attackers' attack skill is higher than the defenders defence skill.
+* Each time also gets, statistically, one free kick per hame
+* A free kick is scored if the free kick takers' attack skill is higher than the goalkeeper's goalkeeping skill
+
+You can choose where your 5 players should play.
+
+
+bonus: injuries, penalties, more free kicks. headers. traits. cards! but maybe simple is good
+
+
+
+
+have newspaper clippings as "cutscenes" for intro/updates/game over
+
+some kind of helper doing the tutorial?
+
+next: view other team. play a match. make any player clickable and have a "highlighted player" section
+next: looks like the matches are using static value. need to look up current stats (for player team at least)
+next: verify which values are being used for match sim!
