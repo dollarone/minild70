@@ -6,6 +6,28 @@ $.Player = function(keeper, star) {
     this.id = $.staticPlayerId++;
     this.name = $.playerNames[this.id];
     this.position = "Substitute";
+    this.age = 28;
+    this.trait = "";
+    if (this.id === 3) {
+        this.trait = "Freekick expert";
+    }
+    if (this.id === 4) {
+        this.trait = "Fast runner";
+    }
+    if (this.id === 2) {
+        this.trait = "Excellent header";
+    }
+    // TODO:
+    if (this.id === 1) {
+        this.trait = "Great tackler";
+    }
+    if (this.id === 5) {
+        this.trait = "Dirty player";
+    }
+    if (this.id === 4) {
+        this.trait = "Amazing dribbler";
+    }
+    // yep
 
     this.color = 'rgba(3, 3, 3, 1)';
     var extra = 0;

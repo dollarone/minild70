@@ -26,6 +26,7 @@ $.Team = function() {
     this.totalDefenderSkill = 0;
     this.totalMidfielderSkill = 0;
     this.totalStrikerSkill = 0;
+    this.freekickTaker = null;
 
     this.points = 0;
     this.goalsFor = 0;
@@ -95,6 +96,7 @@ $.Team.prototype.setPosById = function (id) {
             }
             else if (pos === "Striker") {
                 this.strikerCount = this.setPlayerType(this.players[id], this.strikers, this.strikerCount, "Striker");
+                this.freekickTaker = this.players[id];
             }
             this.updateSkills();
             this.render();
@@ -123,7 +125,7 @@ $.Team.prototype.setStriker = function (player) {
     }
     this.strikerCount = this.setPlayerType(player, this.strikers, this.strikerCount, "Striker");
     this.updateSkills();
-
+    this.freekickTaker = player;
 };
 $.Team.prototype.setSub = function (player) {
     if (!this.my) {
@@ -223,12 +225,37 @@ $.Team.prototype.setMy = function (my) {
     this.my = my;
 };
 
+$.Team.prototype.hasFastRunner = function () {
+    var keys = Object.keys(this.players);
+    keys.forEach(function(key) {
+        var player = this.players[key];
+        if (player.position != "Substitute" && player.position != "Goalkeeper" && player.trait === "Fast runner") {
+            console.log("hasfastTA" + player.name);
+            return true;
+        }
+    }, this);
+    return false;
+};
+
+$.Team.prototype.countHeaders = function () {
+    var headers = 0;
+    var keys = Object.keys(this.players);
+    keys.forEach(function(key) {
+        var player = this.players[key];
+        if (player.position != "Substitute" && player.position != "Goalkeeper" && player.trait === "Excellent header") {
+            headers++;
+        }
+    }, this);
+    console.log("TAhas headers= " + headers);
+    return headers;
+};
+
 $.Team.prototype.render = function (x, y) {
 
     var buffer = "<table>";
 
     buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td /><td style='text-align: left;'>Name" +
-        "</td><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Position</td></tr>";
+        "</td><td>Age</td><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Trait</td><td>Position</td></tr>";
 
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
@@ -257,8 +284,8 @@ $.Team.prototype.render = function (x, y) {
             '<img class="bot" src="img/99background.png" alt="">' +
             '</div></td>';
         buffer += "<td style='text-align: left;'>" +
-            player.name + "</td><td>" + player.keeper + "</td><td>" + player.defence + "</td><td>" + player.midfield + "</td><td>" + 
-            player.attack + "</td><td>";
+            player.name + "</td><td>" + player.age + "</td><td>" + player.keeper + "</td><td>" + player.defence + "</td><td>" + 
+            player.midfield + "</td><td>" + player.attack + "</td><td>" + player.trait + "</td><td>";
         if (this.my) {
             buffer += this.displayForm(player);
         }
