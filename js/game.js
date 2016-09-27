@@ -36,7 +36,8 @@ $.playerNames = {
     27:"Jarle Nilsen",
     28:"Johannes Kristiansen", 
     29:"Inge Jensen",
-    30:"Ingolf Halvorsen"
+    30:"Ingolf Halvorsen",
+    31: "Robert Karus"
 };
 
 $.teamNames = {

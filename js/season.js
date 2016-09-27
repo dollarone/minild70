@@ -177,7 +177,14 @@ $.Season.prototype.render = function() {
 $.Season.prototype.renderTable = function () {
 	var table = this.updateTable();
 
-	var buffer = "<table>";
+	var buffer = "<h2>Table";
+	if (this.matchDaysPlayed != 0) {
+		buffer += " after matchday " + this.matchDaysPlayed;
+	}
+	else {
+		buffer += " before matchday 1";
+	}
+	buffer += "</h2><table>";
 	table.forEach(function(key) {
 		var team = this.teams[key];
 		buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td style='text-align: left;'>" + team.name + "</td><td>" + this.matchDaysPlayed + 

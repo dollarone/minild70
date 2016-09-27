@@ -26,6 +26,8 @@ $.Team = function() {
     this.totalDefenderSkill = 0;
     this.totalMidfielderSkill = 0;
     this.totalStrikerSkill = 0;
+    this.totalWage = 0;
+
     this.freekickTaker = null;
 
     this.points = 0;
@@ -203,21 +205,28 @@ $.Team.prototype.removePlayer = function (player) {
 };
 
 $.Team.prototype.updateSkills = function () {
-
+    this.totalWage = 0;
     if (this.keeperCount > 0) {
         this.totalKeeperSkill = this.keeper[0].keeper;
+        this.totalWage += parseInt(this.keeper[0].wage);
     }
     this.totalDefenderSkill = 0;
     for (var i=0; i<this.defenderCount; i++) {
         this.totalDefenderSkill += this.defenders[i].defence;
+        this.totalWage += parseInt(this.defenders[i].wage);
     }       
     this.totalMidfielderSkill = 0;
     for (var i=0; i<this.midfielderCount; i++) {
         this.totalMidfielderSkill += this.midfielders[i].midfield;
+        this.totalWage += parseInt(this.midfielders[i].wage);
     }
     this.totalStrikerSkill = 0;
     for (var i=0; i<this.strikerCount; i++) {
         this.totalStrikerSkill += this.strikers[i].attack;
+        this.totalWage += parseInt(this.strikers[i].wage);
+    }
+    for (var i=0; i<this.subCount; i++) {
+        this.totalWage += parseInt(this.subs[i].wage);
     }
 };
 
@@ -225,12 +234,38 @@ $.Team.prototype.setMy = function (my) {
     this.my = my;
 };
 
+$.Team.prototype.hasTackler = function () {
+    var keys = Object.keys(this.players);
+    keys.forEach(function(key) {
+        var player = this.players[key];
+        if (player.position === "Defender" && player.trait === "Great tackler") {
+            console.log("TA has Great tackler" + player.name);
+            return true;
+        }
+    }, this);
+    return false;
+};
+
+
 $.Team.prototype.hasFastRunner = function () {
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
         var player = this.players[key];
         if (player.position != "Substitute" && player.position != "Goalkeeper" && player.trait === "Fast runner") {
             console.log("hasfastTA" + player.name);
+            return true;
+        }
+    }, this);
+    return false;
+};
+
+$.Team.prototype.hasFastRunnerAtt = function () {
+    var keys = Object.keys(this.players);
+    keys.forEach(function(key) {
+        var player = this.players[key];
+        if (player.position != "Substitute" && player.position != "Goalkeeper" 
+            && player.position != "Defender" && player.trait === "Fast runner") {
+            console.log("hasfastattTA" + player.name);
             return true;
         }
     }, this);
@@ -250,12 +285,26 @@ $.Team.prototype.countHeaders = function () {
     return headers;
 };
 
+$.Team.prototype.countDribblers = function () {
+    var dribblers = 0;
+    var keys = Object.keys(this.players);
+    keys.forEach(function(key) {
+        var player = this.players[key];
+        if (player.position != "Substitute" && player.position != "Goalkeeper" 
+            && player.position != "Defender" && player.trait === "Amazing dribbler") {
+            dribblers++;
+        }
+    }, this);
+    console.log("TAhas dribblers= " + dribblers);
+    return dribblers;
+};
+
 $.Team.prototype.render = function (x, y) {
 
     var buffer = "<table>";
 
     buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td /><td style='text-align: left;'>Name" +
-        "</td><td>Age</td><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Trait</td><td>Position</td></tr>";
+        "</td><td>Age</td><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Trait</td><td>Wage</td><td>Position</td></tr>";
 
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
@@ -285,7 +334,7 @@ $.Team.prototype.render = function (x, y) {
             '</div></td>';
         buffer += "<td style='text-align: left;'>" +
             player.name + "</td><td>" + player.age + "</td><td>" + player.keeper + "</td><td>" + player.defence + "</td><td>" + 
-            player.midfield + "</td><td>" + player.attack + "</td><td>" + player.trait + "</td><td>";
+            player.midfield + "</td><td>" + player.attack + "</td><td>" + player.trait + "</td><td>" + player.wage + " p/w</td><td>";
         if (this.my) {
             buffer += this.displayForm(player);
         }
@@ -296,9 +345,9 @@ $.Team.prototype.render = function (x, y) {
     }, this);
 
     buffer += "</table>";
-    buffer += "Totals: <table><tr>><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><tr>";
+    buffer += "Totals: <table><tr>><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Total Wage</td><tr>";
     buffer += "<tr><td>" + this.totalKeeperSkill + "</td><td>" + this.totalDefenderSkill + "</td><td>" +
-        this.totalMidfielderSkill + "</td><td>" + this.totalStrikerSkill + "</td></tr>";
+        this.totalMidfielderSkill + "</td><td>" + this.totalStrikerSkill + "</td><td>" + this.totalWage + " per week</td></tr>";
     document.getElementById('team').innerHTML = buffer + this.foo;
     this.foo += "a";
     

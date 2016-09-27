@@ -1,3 +1,28 @@
+
+html,body {
+    height:100%;
+}
+
+ #container {
+  background: #222;
+}
+
+#main {
+  background: #000;
+
+}
+
+#Menu1 {
+    margin: auto;
+}
+
+#Menu7 {
+    margin: auto;
+}
+
+li {
+    text-align: left;
+}
 body { 
     margin: 0; 
     padding: 0; 
@@ -7,13 +32,47 @@ body {
     -khtml-user-select: none;
     -ms-user-select: none;
     text-align: center;
+    font-family: Arial, Helvetica, sans-serif ;
+    height: 100%;
+    color: #999;
 }
 
-h1, h2, h3 {
-    color: #FFF;
+html {
+  height: 100%;
 }
 
-div {
+
+.main_div
+  {
+  text-align:center;
+  background: #00C492;
+  padding:20px; width: 400px;
+  }
+.inner_div
+  {
+  background: #fff;
+  margin-top:20px;
+  height: 100px;
+  }
+.buttons a
+  {
+  font-size: 16px;
+  }
+.buttons a:hover
+  {
+  cursor:pointer;
+  font-size: 16px;
+  }
+
+h1 {
+    color: #000;
+}
+
+h2, h3 {
+    color: #aaa;
+}
+
+#div_notsues {
     width: 200;
     color: #FFF;
     display: inline-block;
@@ -23,6 +82,7 @@ div {
 
 table {
    border-spacing: 3px;
+    margin: 0 auto; 
 }
 
 .img-container { position: relative; }
@@ -68,11 +128,6 @@ table {
 #death {
     text-align: center;
 }
-canvas { 
-    display: block; 
-    margin: 0 auto; 
-    background: #4b0082; 
-}
 
 @media screen and (min-width: 0px) and (max-width: 660px) {
     #fork { display: none; }
@@ -80,4 +135,73 @@ canvas {
 
 @media screen and (min-width: 660px) {
     #fork { display: block; }
+}
+
+@media only screen and (min-width: 630px) {
+  /* only for screens wider or equal to 630 pixels */
+  /* code from http://www.thesitewizard.com/css/design-2-column-layout.shtml */
+}
+
+#innercontent {
+  padding-left: 10px;
+  padding-right: 10px ;
+
+}
+#innernavbar {
+  padding-left: 5px ;
+  padding-right: 5px ;
+  
+}
+#header {
+    border: 1px solid #cecea5;
+    background: #d7dabd;
+}
+#outer_wrapper {
+    
+}
+#wrapper {
+    
+}
+
+#container {
+    width: 100%;
+    float: left;
+    margin-right: -200px;
+}
+#unsnnsas {
+    background: url(background_2.gif) repeat-y right;
+
+}
+#content {
+    margin-right: 200px;
+    height: 100%;
+}
+#unusued {
+    background: url(background_3.gif) repeat-y left;
+
+}
+#main {
+    margin-left: 150px;
+}
+#left {
+    width: 150px;
+    float: left;
+}
+#sidebar {
+    width: 200px;
+    float: right;
+}
+#footer {
+    border: 1px solid #cecea5;
+    background: #d7dabd;
+}
+h1 {
+    margin-top: 0;
+}
+.last {
+    margin-bottom: 0;
+}
+.clearing {
+    height: 0;
+    clear: both;
 }
