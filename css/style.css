@@ -134,12 +134,53 @@ table {
 }
 
 @media screen and (min-width: 660px) {
-    #fork { display: block; }
+  #fork { display: block; }
+  #container {
+    width: 100%;
+    float: left;
+    margin-right: -200px;
+  }
+  #main {
+    margin-left: 150px;
+  }
+  #left {
+    width: 150px;
+    float: left;
+    height: 100%;
+  }
+  #sidebar {
+    width: 200px;
+    float: right;
+  }
+  #content {
+    margin-right: 200px;
+    height: 100%;
+  }
+  #buttons {
+    height: 20%;
+  }
+
 }
 
 @media only screen and (min-width: 630px) {
   /* only for screens wider or equal to 630 pixels */
   /* code from http://www.thesitewizard.com/css/design-2-column-layout.shtml */
+  #container {
+    width: 100%;
+  }
+  #main {
+  }
+  #left {
+    width: 150px;
+    height: 50px;
+  }
+  #sidebar {
+    width: 200px;
+  }
+  #buttons {
+    float: left;
+  }
+
 }
 
 #innercontent {
@@ -163,33 +204,13 @@ table {
     
 }
 
-#container {
-    width: 100%;
-    float: left;
-    margin-right: -200px;
-}
 #unsnnsas {
     background: url(background_2.gif) repeat-y right;
 
 }
-#content {
-    margin-right: 200px;
-    height: 100%;
-}
 #unusued {
     background: url(background_3.gif) repeat-y left;
 
-}
-#main {
-    margin-left: 150px;
-}
-#left {
-    width: 150px;
-    float: left;
-}
-#sidebar {
-    width: 200px;
-    float: right;
 }
 #footer {
     border: 1px solid #cecea5;
