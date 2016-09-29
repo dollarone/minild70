@@ -2,7 +2,21 @@
 
 $.staticPlayerId = 0;
 
-$.Player = function(keeper, star) {
+$.Player = function(name, age, keeper, defence, midfield, attack, trait, wage) {
+
+    this.id = $.staticPlayerId++;
+    this.name = name;
+    this.age = age;
+    this.keeper = keeper;
+    this.defence = defence;
+    this.midfield = midfield;
+    this.attack = attack;
+    this.trait = trait;
+    this.wage = wage;
+};
+
+$.Player.prototype.oldConstructor = function(keeper, star) {
+
     this.id = $.staticPlayerId++;
     this.name = $.playerNames[this.id];
     this.position = "Substitute";

@@ -345,10 +345,10 @@ $.Team.prototype.render = function (x, y) {
     }, this);
 
     buffer += "</table>";
-    buffer += "Totals: <table><tr>><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Total Wage</td><tr>";
+    buffer += "Totals: <table><tr><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Total Wage</td><tr>";
     buffer += "<tr><td>" + this.totalKeeperSkill + "</td><td>" + this.totalDefenderSkill + "</td><td>" +
         this.totalMidfielderSkill + "</td><td>" + this.totalStrikerSkill + "</td><td>" + this.totalWage + " per week</td></tr>";
-    document.getElementById('team').innerHTML = buffer + this.foo;
+    document.getElementById('team').innerHTML = buffer;
     this.foo += "a";
     
 

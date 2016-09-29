@@ -121,14 +121,14 @@ $.loop = function () {
 };
 $.generateRandomObjects = function () {
     $.entities = [];
-    $.team1 = $.generateRandomTeam();
-    $.team2 = $.generateRandomTeam();
-    $.team3 = $.generateRandomTeam();
-    $.team4 = $.generateRandomTeam();
-    $.team5 = $.generateRandomTeam();
-    $.team6 = $.generateRandomTeam();
-    $.team7 = $.generateRandomTeam();
-    $.team8 = $.generateRandomTeam();
+    $.team1 = $.generateTeam();
+    $.team2 = $.generateTeam();
+    $.team3 = $.generateTeam();
+    $.team4 = $.generateTeam();
+    $.team5 = $.generateTeam();
+    $.team6 = $.generateTeam();
+    $.team7 = $.generateTeam();
+    $.team8 = $.generateTeam();
     
     $.team2.setMy(false);
     $.team3.setMy(false);
@@ -233,6 +233,32 @@ $.generateRandomTeam = function() {
     team.setSub($.players[$.current_player++]);
 
     return team;
+};
+
+$.generateTeam = function() {
+    var team = new $.Team();
+
+    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    team.addPlayer($.players[$.current_player]);
+    team.setKeeper($.players[$.current_player++]);
+    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 0, "", 1000));
+    team.addPlayer($.players[$.current_player]);
+    team.setDefender($.players[$.current_player++]);
+    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 2, 10, 2, "", 1000));
+    team.addPlayer($.players[$.current_player]);
+    team.setMidfielder($.players[$.current_player++]);
+    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 3, "", 1000));
+    team.addPlayer($.players[$.current_player]);
+    team.setMidfielder($.players[$.current_player++]);
+    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 3, 10, "", 1000));
+    team.addPlayer($.players[$.current_player]);
+    team.setStriker($.players[$.current_player++]);
+    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 4, 5, 4, "", 500));
+    team.addPlayer($.players[$.current_player]);
+    team.setSub($.players[$.current_player++]);
+
+    return team;
+
 };
 
 $.update = function () {

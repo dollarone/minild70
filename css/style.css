@@ -158,6 +158,8 @@ table {
   }
   #buttons {
     height: 20%;
+    float: left;
+    padding-top: 40px;
   }
 
 }
@@ -177,7 +179,7 @@ table {
   #sidebar {
     width: 200px;
   }
-  #buttons {
+  #button {
     float: left;
   }
 
