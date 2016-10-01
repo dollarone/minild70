@@ -122,7 +122,7 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                     if (this.homeTeamRegularChances === 1 && this.awayTeam.hasTackler()) {
                         // tackle
                     }
-                    else if (this.homeTeam.totalStrikerSkill > this.awayTeam.totalDefenderSkill) {
+                    else if (!this.awayTeam.hasKeeper() || this.homeTeam.totalStrikerSkill > this.awayTeam.totalDefenderSkill) {
                         this.homeTeamGoals++;
 console.log("TA GOAL regHome");
                     }
@@ -132,31 +132,31 @@ console.log("TA GOAL regHome");
                     if (this.awayTeamRegularChances === 1 && this.homeTeam.hasTackler()) {
                         // tackle
                     }
-                    else if (this.awayTeam.totalStrikerSkill > this.homeTeam.totalDefenderSkill) {
+                    else if (!this.homeTeam.hasKeeper() || this.awayTeam.totalStrikerSkill > this.homeTeam.totalDefenderSkill) {
                         this.awayTeamGoals++;
 console.log("TA GOAL regAway");                          
                     }
                 }
                 else if (event === "freeKickHome") {
                     this.homeTeamFreekicks++;
-                    if ((this.homeTeam.freekickTaker.trait === "Freekick expert" || 
-                        this.homeTeam.freekickTaker.attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0) {
+                    if (!this.awayTeam.hasKeeper() || ((this.homeTeam.freekickTaker.trait === "Freekick expert" || 
+                        this.homeTeam.freekickTaker.attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0)) {
                         this.homeTeamGoals++;
 console.log("TA GOAL freekickHome");                    
                     }
                 }
                 else if (event === "freeKickAway") {
                     this.awayTeamFreekicks++;
-                    if ((this.awayTeam.freekickTaker.trait === "Freekick expert" || 
-                        this.awayTeam.freekickTaker.attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0) {
+                    if (!this.homeTeam.hasKeeper() ||  ((this.awayTeam.freekickTaker.trait === "Freekick expert" || 
+                        this.awayTeam.freekickTaker.attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0)) {
                         this.awayTeamGoals++;
 console.log("TA GOAL freekickAway");
                     }
                 }
                 else if (event === "dribbleChanceHome") {
                     this.homeTeamFreekicks++;
-                    if ((this.homeTeam.freekickTaker.trait === "Freekick expert" || 
-                        this.homeTeam.freekickTaker.attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0) {
+                    if (!this.awayTeam.hasKeeper() || ((this.homeTeam.freekickTaker.trait === "Freekick expert" || 
+                        this.homeTeam.freekickTaker.attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0)) {
                         this.homeTeamGoals++;
 console.log("TA GOAL dribbleHome");
                     }
@@ -164,36 +164,36 @@ console.log("TA GOAL dribbleHome");
                 }
                 else if (event === "dribbleChanceAway") {
                     this.awayTeamFreekicks++;
-                    if ((this.awayTeam.freekickTaker.trait === "Freekick expert" || 
-                        this.awayTeam.freekickTaker.attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0) {
+                    if (!this.homeTeam.hasKeeper() || ((this.awayTeam.freekickTaker.trait === "Freekick expert" || 
+                        this.awayTeam.freekickTaker.attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0)) {
                         this.awayTeamGoals++;
 console.log("TA GOAL dribbleAway");                    
                     }
                 }
                 else if (event === "cornerChanceHome") {
                     this.homeTeamCorners++;
-                    if (this.homeTeam.countHeaders() > this.awayTeam.countHeaders() && this.homeTeamCorners % 2 === 0) {
+                    if (!this.awayTeam.hasKeeper() || (this.homeTeam.countHeaders() > this.awayTeam.countHeaders() && this.homeTeamCorners % 2 === 0)) {
                         this.homeTeamGoals++;
 console.log("TA GOAL cornerHome");
                     }
                 }
                 else if (event === "cornerChanceAway") {
                     this.awayTeamCorners++;
-                    if (this.homeTeam.countHeaders() < this.awayTeam.countHeaders() && this.awayTeamCorners % 2 === 0) {
+                    if (!this.homeTeam.hasKeeper() || (this.homeTeam.countHeaders() < this.awayTeam.countHeaders() && this.awayTeamCorners % 2 === 0)) {
                         this.awayTeamGoals++;
 console.log("TA GOAL cornerAway");
                     }
                 }
                 else if (event === "speedChanceHome") {
                     this.homeTeamCorners++;
-                    if (this.homeTeam.countHeaders() > this.awayTeam.countHeaders() && this.homeTeamCorners % 2 === 0) {
+                    if (!this.awayTeam.hasKeeper() || (this.homeTeam.countHeaders() > this.awayTeam.countHeaders() && this.homeTeamCorners % 2 === 0)) {
                        this.homeTeamGoals++;
 console.log("TA GOAL speedcornerHome");
                     }
                 }
                 else if (event === "speedChanceAway") {
                     this.awayTeamCorners++;
-                    if (this.homeTeam.countHeaders() < this.awayTeam.countHeaders() && this.awayTeamCorners % 2 === 0) {
+                    if (!this.homeTeam.hasKeeper() || (this.homeTeam.countHeaders() < this.awayTeam.countHeaders() && this.awayTeamCorners % 2 === 0)) {
                         this.awayTeamGoals++;
 console.log("TA GOAL speedcornerAway");
                     }
@@ -218,8 +218,6 @@ console.log("TA result: " + this.homeTeamGoals + "-" + this.awayTeamGoals);
 
 $.Match.prototype.saveResult = function() {
 
-    console.log("saving res");
-
     if (this.homeTeamGoals > this.awayTeamGoals) {
         this.result = 'H';
         this.homeTeam.points += 3;
@@ -240,8 +238,6 @@ $.Match.prototype.saveResult = function() {
         this.awayTeam.draws++;
     }
     // TODO: maybe refactor this if we want to access previous state
-
-    console.log("res: " + this.result);
 
     this.homeTeam.goalsFor += this.homeTeamGoals;
     this.homeTeam.goalsAgainst += this.awayTeamGoals;

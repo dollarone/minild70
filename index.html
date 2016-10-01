@@ -27,6 +27,9 @@
     <script src="./js/table.js"></script>
     <script src="./js/season.js"></script>
     <script>
+    function myFunction() {
+        console.log("click");
+    $.season.inspectTeam(3); };
 var divs = ["Menu1", "Menu2", "Menu3", "Menu4", "Menu5", "Menu6", "Menu7"];
 var visibleDivId = null;
 function toggleVisibility(divId) {
@@ -62,11 +65,11 @@ function hideNonVisibleDivs() {
                   <div class="button">
                   <a href="#" onclick="toggleVisibility('Menu1');">News</a>
                   </div><div class="button">
-                  <a href="#" onclick="toggleVisibility('Menu2');">Team</a>
+                  <a href="#" onclick="toggleVisibility('Menu2');">My Team</a>
                   </div><div class="button">
                   <a href="#" onclick="toggleVisibility('Menu3');">Matches</a>
                   </div><div class="button">
-                  <a href="#" onclick="toggleVisibility('Menu4');">Table</a>
+                  <a href="#" onclick="toggleVisibility('Menu4');$.season.inspectTeam(0);">Table</a>
                   </div><div class="button">
                   <a href="#" onclick="toggleVisibility('Menu5');">Transfer</a>
                   </div><div class="button">
@@ -91,9 +94,9 @@ function hideNonVisibleDivs() {
                   <div id="playSeasonButton"></div>
                 </div>
                 <div id="Menu4" style="display: none;">
-                  <br/><br/><br/>
+                  <br/>
                   <div id="table"></div>
-                  <br/><br/><br/>
+                  <br/>
                 </div>
                 <div id="Menu5" style="display: none;">I'm container 5</div>
                 <div id="Menu6" style="display: none;">I'm container 6</div>

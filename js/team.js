@@ -98,14 +98,28 @@ $.Team.prototype.setPosById = function (id) {
             }
             else if (pos === "Striker") {
                 this.strikerCount = this.setPlayerType(this.players[id], this.strikers, this.strikerCount, "Striker");
-                this.freekickTaker = this.players[id];
             }
             this.updateSkills();
             this.render();
         }
     }
 };
+$.Team.prototype.setFreekicktaker = function (player) {
+    if (!this.my) {
+        return;
+    }
+    for (var i=0; i<this.playerCount; i++) {
+        if (this.players[i].id === player.id) {
+            this.freekickTaker = player;
+        }
+    }
+};
 
+
+$.Team.prototype.hasKeeper = function() {
+    return this.keeperCount == 1;
+
+};
 $.Team.prototype.setDefender = function (player) {
     if (!this.my) {
         return;
@@ -127,7 +141,6 @@ $.Team.prototype.setStriker = function (player) {
     }
     this.strikerCount = this.setPlayerType(player, this.strikers, this.strikerCount, "Striker");
     this.updateSkills();
-    this.freekickTaker = player;
 };
 $.Team.prototype.setSub = function (player) {
     if (!this.my) {
@@ -189,7 +202,7 @@ $.Team.prototype.unsetPlayer = function (player) {
 $.Team.prototype.addPlayer = function (player) {
     this.players.push(player);
     this.playerCount++;
-    console.log("adding " + player.id + " " + player.attack);
+//    console.log("adding " + player.id + " " + player.attack);
     this.updateSkills();
 
 };
@@ -299,9 +312,9 @@ $.Team.prototype.countDribblers = function () {
     return dribblers;
 };
 
-$.Team.prototype.render = function (x, y) {
+$.Team.prototype.generateTeamTable = function () {
 
-    var buffer = "<table>";
+    var buffer = "<h2>" + this.name + "</h2><br /><table>";
 
     buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td /><td style='text-align: left;'>Name" +
         "</td><td>Age</td><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Trait</td><td>Wage</td><td>Position</td></tr>";
@@ -348,12 +361,14 @@ $.Team.prototype.render = function (x, y) {
     buffer += "Totals: <table><tr><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Total Wage</td><tr>";
     buffer += "<tr><td>" + this.totalKeeperSkill + "</td><td>" + this.totalDefenderSkill + "</td><td>" +
         this.totalMidfielderSkill + "</td><td>" + this.totalStrikerSkill + "</td><td>" + this.totalWage + " per week</td></tr>";
-    document.getElementById('team').innerHTML = buffer;
-    this.foo += "a";
-    
 
+    return buffer;
+//    document.getElementById('team').innerHTML = buffer;
 };
 
+$.Team.prototype.render = function (x, y) {
+    document.getElementById('team').innerHTML = this.generateTeamTable();  
+};
 
 $.Team.prototype.displayForm = function (player) {
     var isSub = (player.position === "Substitute") ? "selected" : "";
@@ -369,7 +384,7 @@ $.Team.prototype.displayForm = function (player) {
     '<option ' + isDefender + ' position="Defender">Defender</option>' +
     '<option ' + isMidfielder + ' position="Midfielder">Midfielder</option>' +
     '<option ' + isStriker + ' position="Striker">Striker</option>' +
-    '</select>';
+    '</select></form>';
 /*
     </form><script>function onChange(select, form) {' +
     'var pos = select.options[select.selectedIndex].getAttribute("lon");' +

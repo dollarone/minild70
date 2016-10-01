@@ -7,6 +7,7 @@ $.Season = function(teamCount) {
 	this.matchDayCount = ((teamCount-1)*2)
 	this.matchDay = new Array(this.matchDayCount);
 	this.matchDaysPlayed = 0;
+	this.inspectingTeam = 0;
 };
 
 $.Season.prototype.addTeam = function (team) {
@@ -163,18 +164,57 @@ $.Season.prototype.rendder = function() {
 
 };
 $.Season.prototype.render = function() {
-	console.log("test");
 	for(var i=0; i<(this.teamCount-1)*2; i++) {
 		for(var j=0; j<(this.teamCount/2); j++) {
-			console.log("matchday " + i + ":" + this.matchDay[i][j].homeTeam.name + "-" + this.matchDay[i][j].awayTeam.name);
+		//	console.log("matchday " + i + ":" + this.matchDay[i][j].homeTeam.name + "-" + this.matchDay[i][j].awayTeam.name);
 //			console.log("matchday " + i + ":\n" + this.matchDay[i]);
 		}
 	}
 	this.renderTable();
 };
 
+$.Season.prototype.getTeam = function(id) {
+	for(var i=0; i<this.teamCount; i++) {
+		if (id === this.teams[i].id) {
+			return this.teams[i];
+		}
+	}
+	return;
+};
+
+$.Season.prototype.inspectTeam = function(id) {
+	this.inspectingTeam = id;
+	this.renderTable();
+};
+
+
+
+$.Season.prototype.inspectPlayerForm = function (player) {
+
+    return '<form id="pos_' + player.id + '" onSubmit="return false;">' +
+        '<input id="select_' + player.id + '" onchange="$.season.inspectTeam(' + team.id + ');">' +
+    '<option ' + isSub + ' position="Substitute">Substitute</option>' +
+    '<option ' + isGoalkeeper + ' position="Goalkeeper">Goalkeeper</option>' +
+    '<option ' + isDefender + ' position="Defender">Defender</option>' +
+    '<option ' + isMidfielder + ' position="Midfielder">Midfielder</option>' +
+    '<option ' + isStriker + ' position="Striker">Striker</option>' +
+    '</select>';
+/*
+    </form><script>function onChange(select, form) {' +
+    'var pos = select.options[select.selectedIndex].getAttribute("lon");' +
+    'form.elements["position"].value = pos;' +
+    'this.setDefender(player); this.render(); };</script>';
+*/
+};
 
 $.Season.prototype.renderTable = function () {
+    if (this.inspectingTeam > 0) {
+        var buffer = this.getTeam(this.inspectingTeam).generateTeamTable();
+
+//        buffer =+ "Back to table link";    in table button or both
+        document.getElementById('table').innerHTML = buffer;
+        return;
+    }
 	var table = this.updateTable();
 
 	var buffer = "<h2>Table";
@@ -187,7 +227,13 @@ $.Season.prototype.renderTable = function () {
 	buffer += "</h2><table>";
 	table.forEach(function(key) {
 		var team = this.teams[key];
-		buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td style='text-align: left;'>" + team.name + "</td><td>" + this.matchDaysPlayed + 
+		buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td style='text-align: left;'>";
+
+//	buffer += '<form id="pos_' + team.id + '" onSubmit="return false;">';
+		
+        buffer += '<a href="#" onclick="$.season.inspectTeam(' + team.id + ');">' + team.name + '</a>';
+
+		buffer += "</td><td>" + this.matchDaysPlayed + 
 		"</td><td>" + team.wins + "</td><td>" + team.draws + "</td><td>" + team.losses + "</td><td>" + 
 		team.goalsFor + "</td><td>" + team.goalsAgainst + "</td><td>" + team.goalsDiff + "</td><td>" + team.points + "</td></tr>";
 	}, this);

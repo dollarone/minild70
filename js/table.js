@@ -5,6 +5,7 @@ $.Table = function(teamCount) {
 	this.maxTeamCount = teamCount;
 	this.teamCount = 0;
 	this.teams = {};
+    this.inspectingTeam = 2;
 };
 
 $.Table.prototype.addTeam = function (team) {
@@ -14,7 +15,15 @@ $.Table.prototype.addTeam = function (team) {
 	}
 };
 
-$.Table.prototype.render = function () {
+$.Table.prototype.renderNOT_used_this_is_done_in_Seasons = function () {
+    console.log("INSPECT " + this.inspectingTeam);
+    if (this.inspectingTeam > 0) {
+        var buffer = $.season.getTeam(this.inspectingTeam).generateTeamTable();
+
+//        buffer =+ "Back to table link";    in table button or both
+        document.getElementById('table').innerHTML = buffer;
+        return;
+    }
 	var table = this.updateTable();
 
 	var buffer = "<ul>";
