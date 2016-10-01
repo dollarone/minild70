@@ -41,14 +41,14 @@ $.playerNames = {
 };
 
 $.teamNames = {
-    0:"London Inc.", 
-    1:"FC Rubberballs", 
-    2:"Bargelona FC", 
-    3:"Sadboys United",
-    4:"Celtic Rangers",
-    5:"Sherwood Forest",
-    6:"Athletico Real",
-    7:"Woolwich Gunners"
+    0:"Woolwich Gunners",
+    1:"AC Inter", 
+    2:"Tigers FC",
+    3:"Athletico Real",
+    4:"Bargelona FC",
+    5:"London Inc.", 
+    6:"Celtic Rangers",
+    7:"Sherwood Forest"
 };
 
 $.colors = {
@@ -130,13 +130,13 @@ $.generateRandomObjects = function () {
     $.team7 = $.generateTeam7();
     $.team8 = $.generateTeam8();
     
+    $.team1.setMy(false);
     $.team2.setMy(false);
     $.team3.setMy(false);
     $.team4.setMy(false);
     $.team5.setMy(false);
     $.team6.setMy(false);
     $.team7.setMy(false);
-    $.team8.setMy(false);
 
     $.events = new $.Event();
     $.events.addEvent("test");
@@ -164,7 +164,7 @@ $.generateRandomObjects = function () {
     $.season.addTeam($.team8);
     $.season.generateMatches();
     
-    $.team1.render(10,10);
+    $.team8.render();
 
     $.addPlayNextMatchButton();
     $.addPlaySeasonButton();

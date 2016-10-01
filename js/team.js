@@ -38,7 +38,8 @@ $.Team = function() {
     this.wins = 0;
     this.draws = 0;
     this.losses = 0;
-    this.foo = this.keeperCount + this.defenderCount + this.midfielderCount + this.strikerCount;
+    this.shirt = this.id;
+    this.gkshirt = (this.id % 4) + 8;
 };
 
 $.Team.prototype.teamFull = function () {
@@ -342,7 +343,14 @@ $.Team.prototype.generateTeamTable = function () {
         else {
             buffer += '<img class="top z2" src="img/81bigface2.png" alt="">';
         }
-        buffer += '<img class="top z1" src="img/91redshirt.png" alt="">' +
+        buffer += '<img class="top z1';
+        if (player.position == "Goalkeeper") {
+            buffer += ' y' + this.gkshirt;
+        }
+        else {
+            buffer += ' y' + this.shirt;
+        }
+        buffer += '" src="img/sprites.png" alt="">' +
             '<img class="bot" src="img/99background.png" alt="">' +
             '</div></td>';
         buffer += "<td style='text-align: left;'>" +
@@ -366,7 +374,7 @@ $.Team.prototype.generateTeamTable = function () {
 //    document.getElementById('team').innerHTML = buffer;
 };
 
-$.Team.prototype.render = function (x, y) {
+$.Team.prototype.render = function () {
     document.getElementById('team').innerHTML = this.generateTeamTable();  
 };
 

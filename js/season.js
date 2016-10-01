@@ -7,7 +7,7 @@ $.Season = function(teamCount) {
 	this.matchDayCount = ((teamCount-1)*2)
 	this.matchDay = new Array(this.matchDayCount);
 	this.matchDaysPlayed = 0;
-	this.inspectingTeam = 0;
+	this.inspectingTeam = -1;
 };
 
 $.Season.prototype.addTeam = function (team) {
@@ -208,7 +208,7 @@ $.Season.prototype.inspectPlayerForm = function (player) {
 };
 
 $.Season.prototype.renderTable = function () {
-    if (this.inspectingTeam > 0) {
+    if (this.inspectingTeam > -1) {
         var buffer = this.getTeam(this.inspectingTeam).generateTeamTable();
 
 //        buffer =+ "Back to table link";    in table button or both
