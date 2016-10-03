@@ -56,14 +56,14 @@ console.log("TA  keeper: " + this.homeTeam.totalKeeperSkill);
 console.log("TA defence: " + this.homeTeam.totalDefenderSkill);
 console.log("TAmidfield: " + this.homeTeam.totalMidfielderSkill);
 console.log("TA  attack: " + this.homeTeam.totalStrikerSkill);
-console.log("TAfreekick: " + this.homeTeam.freekickTaker.attack + " " + this.homeTeam.freekickTaker.trait);
+console.log("TAfreekick: " + this.homeTeam.freekickTaker.attack + " " + this.homeTeam.getFreekickTaker().trait);
 
 console.log("TA awayTeam stats: " + this.awayTeam.name);
 console.log("TA  keeper: " + this.awayTeam.totalKeeperSkill);
 console.log("TA defence: " + this.awayTeam.totalDefenderSkill);
 console.log("TAmidfield: " + this.awayTeam.totalMidfielderSkill);
 console.log("TA  attack: " + this.awayTeam.totalStrikerSkill);
-console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awayTeam.freekickTaker.trait);
+console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awayTeam.getFreekickTaker().trait);
 */
     while(this.matchState!=6) {
         if (this.matchState === 0) {
@@ -141,8 +141,8 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                     if (this.speed == 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "Free kick to " + this.homeTeam.name + ".");
                     }
-                    if (!this.awayTeam.hasKeeper() || ((this.homeTeam.freekickTaker.trait === "Freekick expert" || 
-                        this.homeTeam.freekickTaker.attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0)) {
+                    if (!this.awayTeam.hasKeeper() || ((this.homeTeam.getFreekickTaker().trait === "Freekick expert" || 
+                        this.homeTeam.getFreekickTaker().attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0)) {
                         this.homeTeamGoals++;
                         if (this.speed == 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "He puts it high and out of the keeper's reach! GOAL!");
@@ -164,8 +164,8 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                     if (this.speed == 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, this.awayTeam.name + " has a free kick in a good position.");
                     }
-                    if (!this.homeTeam.hasKeeper() ||  ((this.awayTeam.freekickTaker.trait === "Freekick expert" || 
-                        this.awayTeam.freekickTaker.attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0)) {
+                    if (!this.homeTeam.hasKeeper() ||  ((this.awayTeam.getFreekickTaker().trait === "Freekick expert" || 
+                        this.awayTeam.getFreekickTaker().attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0)) {
                         this.awayTeamGoals++;
                         if (this.speed == 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "Top corner! What a shot! GOAL!");
@@ -187,8 +187,8 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "Some excellent dribbling leads to a free kick for " + this.homeTeam.name + ".");
                     }
 
-                    if (!this.awayTeam.hasKeeper() || ((this.homeTeam.freekickTaker.trait === "Freekick expert" || 
-                        this.homeTeam.freekickTaker.attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0)) {
+                    if (!this.awayTeam.hasKeeper() || ((this.homeTeam.getFreekickTaker().trait === "Freekick expert" || 
+                        this.homeTeam.getFreekickTaker().attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0)) {
                         this.homeTeamGoals++;
                         if (this.speed == 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "GOAL! The ball almost takes the net out!");
@@ -211,8 +211,8 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, this.awayTeam.name + " has a free kick after some great dribbling down the left hand side.");
                     }
 
-                    if (!this.homeTeam.hasKeeper() || ((this.awayTeam.freekickTaker.trait === "Freekick expert" || 
-                        this.awayTeam.freekickTaker.attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0)) {
+                    if (!this.homeTeam.hasKeeper() || ((this.awayTeam.getFreekickTaker().trait === "Freekick expert" || 
+                        this.awayTeam.getFreekickTaker().attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0)) {
                         this.awayTeamGoals++;
                         if (this.speed == 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "Fantastic shot! It's a GOAL!");

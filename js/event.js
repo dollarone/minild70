@@ -9,7 +9,7 @@ $.Event = function() {
 
 
 $.Event.prototype.addEvent = function (hometeam, hometeamgoals, awayteam, awayteamgoals, time, text) {
-    this.list.push({id:this.id++, hometeam:hometeam, hometeamgoals:hometeamgoals, awayteam:awayteam, awayteamgoals:awayteamgoals, time:time, text:text, fade:2});
+    this.list.push({id:this.id++, hometeam:hometeam, hometeamgoals:hometeamgoals, awayteam:awayteam, awayteamgoals:awayteamgoals, time:time, text:text, fade:220});
     this.events++;
 
 };
@@ -26,7 +26,7 @@ $.Event.prototype.render = function () {
             document.getElementById('events').innerHTML = buffer;
 
 
-            if (this.list[i].text === "The ref blows his whistle for full time." && this.list[i].fade === 2) {
+            if (this.list[i].text === "The ref blows his whistle for full time." && this.list[i].fade === 220) {
                 $.season.finishMatchday();
 
             }

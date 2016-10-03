@@ -44,7 +44,7 @@ $.Team = function() {
 };
 
 $.Team.prototype.teamFull = function () {
-    return (5 <= this.keeperCount + this.defenderCount + this.midfielderCount + this.strikerCount);
+    return (this.keeperCount + this.defenderCount + this.midfielderCount + this.strikerCount >= 5);
 };
 
 $.Team.prototype.setKeeper = function (player) {
@@ -130,9 +130,26 @@ $.Team.prototype.setFreekicktakerById = function (id) {
     this.render();
 };
 
+$.Team.prototype.getFreekickTaker = function (player) {
+    for (var i=0; i<this.playerCount; i++) {
+        if (this.players[i].id === this.freekickTaker) {
+            return this.players[i];
+        }
+    }
+};
+
+$.Team.prototype.assignDefaultFreekickTaker = function (player) {
+    for (var i=0; i<this.playerCount; i++) {
+        if (this.players[i].position != "Substitute") {
+            this.freekickTaker = this.players[i].id;
+        }
+    }
+
+};
+
 
 $.Team.prototype.hasKeeper = function() {
-    return this.keeperCount == 1;
+    return this.keeperCount === 1;
 
 };
 $.Team.prototype.setDefender = function (player) {
@@ -172,8 +189,11 @@ $.Team.prototype.setPlayerType = function (player, playerTypeArray, playerTypeCo
     }
 
     if (player.position === "Substitute" && pos != "Substitute" && this.teamFull()) {
-        alert("Only 5 players allowed - put someone on the bench first");
+        document.getElementById('error').innerHTML = "<div style='color: " + $.colors["red"] + "';>Only 5 players allowed - make someone a Substitute first!</div>";
         return playerTypeCount;
+    }
+    else {
+        document.getElementById('error').innerHTML = "";
     }
     var index = this.players.indexOf(player);
     if (index != -1) {
@@ -220,6 +240,7 @@ $.Team.prototype.addPlayerById = function (id) {
             this.players.push($.players[i]);
             this.playerCount++;
 //    console.log("adding " + player.id + " " + player.attack);
+            this.setSub($.players[i]);
             this.updateSkills();
         }
     }
@@ -313,7 +334,8 @@ $.Team.prototype.hasFastRunner = function () {
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
         var player = this.players[key];
-        if (player.position != "Substitute" && player.position != "Goalkeeper" && player.trait === "Fast runner") {
+        if (player.position != "Substitute" && player.position != "Goalkeeper" 
+            && player.trait === "Fast runner") {
         //    console.log("hasfastTA" + player.name);
             return true;
         }
@@ -426,7 +448,7 @@ $.Team.prototype.generateTeamTable = function () {
             '</div></td>';
         buffer += "<td style='text-align: left;'>" +
             player.name + "</td><td>" + player.age + "</td><td>" + player.keeper + "</td><td>" + player.defence + "</td><td>" + 
-            player.midfield + "</td><td>" + player.attack + "</td><td>" + player.trait + "</td><td>" + player.wage + " p/w</td><td>";
+            player.midfield + "</td><td>" + player.attack + "</td><td>" + player.trait + "</td><td>£" + player.wage + " p/w</td><td>";
 
         if (this.my) {
             if (this.freekickTaker === player.id) {
@@ -474,10 +496,14 @@ $.Team.prototype.generateTeamTable = function () {
     else {
         buffer += "<td>";
     }
-    buffer += this.totalWage + " per week</td>";
+
+    //if (this.totalWage >= 1000) {
+       // this.totalwage = this.totalwage/1000 + "," + this.totalwage-(Math.floor(this.totalwage/1000)*1000);
+    //}
+    buffer += "£" + this.totalWage + " per week</td>";
     
     if (this.my) {
-        buffer += "<td>" + this.maxWage + " per week</td>";
+        buffer += "<td>£" + this.maxWage + " per week</td>";
     }
     buffer += "</tr>";
 

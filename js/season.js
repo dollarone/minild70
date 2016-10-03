@@ -173,6 +173,9 @@ $.Season.prototype.simNextMatchday = function() {
 };
 
 $.Season.prototype.simMatchDay = function(day) {
+	if ($.team8.getFreekickTaker() == null) {
+		$.team8.assignDefaultFreekickTaker();
+	}
 
 	for (var i=0; i<this.matchDay[day].length; i++) {
 	//	console.log("sim matchday " + day + ": " + this.matchDay[day][i].homeTeam.name + "-" + this.matchDay[day][i].awayTeam.name );	
@@ -268,7 +271,7 @@ $.Season.prototype.rendder = function() {
 };
 $.Season.prototype.render = function() {
 	this.updateTable();
-	this.renderTable();
+	this.renderTable(false);
 	this.getNextMatchDay();
 };
 
@@ -283,7 +286,7 @@ $.Season.prototype.getTeam = function(id) {
 
 $.Season.prototype.inspectTeam = function(id) {
 	this.inspectingTeam = id;
-	this.renderTable();
+	this.renderTable(true);
 };
 
 
@@ -306,7 +309,7 @@ $.Season.prototype.inspectPlayerForm = function (player) {
 */
 };
 
-$.Season.prototype.renderTable = function () {
+$.Season.prototype.renderTable = function (check) {
     if (this.inspectingTeam > -1) {
         var buffer = this.getTeam(this.inspectingTeam).generateTeamTable();
 
@@ -326,8 +329,14 @@ $.Season.prototype.renderTable = function () {
 			buffer += " before matchday 1";
 		}
 		buffer += "</h2><table>";
+		var lol = 0;
+		var win = false;
 		table.forEach(function(key) {
+			lol++;
 			var team = this.teams[key];
+			if (check && lol === 1 && team === $.team8) {
+				win = true;
+			}
 			buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td style='text-align: left;'>";
 
 	//	buffer += '<form id="pos_' + team.id + '" onSubmit="return false;">';
@@ -341,6 +350,9 @@ $.Season.prototype.renderTable = function () {
 
 	    buffer += "</table>";
 	    document.getElementById('table').innerHTML = buffer;
+	    if (win) {
+	    	document.getElementById('win').innerHTML = "<div style='color: " + $.colors["cloudblue"] + "';>You won the league! Amazing - well done!<br />Thanks for playing Bargainball!<br /><br />";
+	    }
 	}
 };
 
