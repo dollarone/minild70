@@ -173,23 +173,31 @@ $.Season.prototype.simNextMatchday = function() {
 };
 
 $.Season.prototype.simMatchDay = function(day) {
-	if ($.team8.getFreekickTaker() == null) {
-		$.team8.assignDefaultFreekickTaker();
-	}
 
-	for (var i=0; i<this.matchDay[day].length; i++) {
-	//	console.log("sim matchday " + day + ": " + this.matchDay[day][i].homeTeam.name + "-" + this.matchDay[day][i].awayTeam.name );	
-		this.matchDay[day][i].fastSim();
-	//	console.log("post sim matchday " + day + ": " + this.matchDay[day][i].homeTeamGoals + "-" + this.matchDay[day][i].awayTeamGoals);	
-	}
-	this.matchDaysPlayed++;
-	if (this.speed === 2) {
-		this.finishMatchday();
+	if ($.team8.totalWage > $.team8.maxWage) {
+		document.getElementById('news').innerHTML = "<p>You started the season over budget. As a consequence, " + $.team8.name + " went bankrupt and folded. Several people - hard working, regular people - lost their jobs because of you! <br />OH THE HUMANITY.</p.> <br /><br /><p>Game over</p><br /><br />(or you can re-jig your budget and try again)";
+		toggleVisibility('Menu1');
 	}
 	else {
-		$.renderAll();
-	}
 
+		if ($.team8.getFreekickTaker() == null) {
+			$.team8.assignDefaultFreekickTaker();
+		}
+
+
+		for (var i=0; i<this.matchDay[day].length; i++) {
+		//	console.log("sim matchday " + day + ": " + this.matchDay[day][i].homeTeam.name + "-" + this.matchDay[day][i].awayTeam.name );	
+			this.matchDay[day][i].fastSim();
+		//	console.log("post sim matchday " + day + ": " + this.matchDay[day][i].homeTeamGoals + "-" + this.matchDay[day][i].awayTeamGoals);	
+		}
+		this.matchDaysPlayed++;
+		if (this.speed === 2) {
+			this.finishMatchday();
+		}
+		else {
+			$.renderAll();
+		}
+	}
 };
 
 $.Season.prototype.resetMatchdayData = function() {
