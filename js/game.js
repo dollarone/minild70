@@ -5,39 +5,154 @@ var $ = {};
 $.width = 800;
 $.height = 500;
 
-$.playerNames = {
-    0:"John Bender", 
-    1:"Lars Bensen",
-    2:"Frank Larsen", 
-    3:"Viggo Johnson",
-    4:"Petter Solberg", 
-    5:"Terje Bakken",
-    6:"Karl Knasen", 
-    7:"Jens Bekken",
-    8:"Per Storberg", 
-    9:"Freddy Larsson",
-    10:"Gunnar Olsen", 
-    11:"Patrick Berget",
-    12:"Odd Martin Lange", 
-    13:"Frode Johansen",
-    14:"Aage Andersen", 
-    15:"David Abrahamsen",
-    16:"Alex Linsen", 
-    17:"Adam Egersen",
-    18:"Guttorm Igersen", 
-    19:"Alf Egilsen",
-    20:"Steinar Hansen", 
-    21:"Agnar Berg",
-    22:"Jostein Hagen", 
-    23:"Aksel Kolle",
-    24:"Albert Karlsen", 
-    25:"Jan Pedersen",
-    26:"Joakim Smith", 
-    27:"Jarle Nilsen",
-    28:"Johannes Kristiansen", 
-    29:"Inge Jensen",
-    30:"Ingolf Halvorsen",
-    31: "Robert Karus"
+$.playerLastNames = {
+    0:"Singh", 
+    1:"Bernson",
+    2:"Larsen", 
+    3:"Johnson",
+    4:"Smith", 
+    5:"Welberg",
+    6:"Cornwall", 
+    7:"White",
+    8:"Berg", 
+    9:"Larsson",
+    10:"Grant", 
+    11:"McArthur",
+    12:"Green", 
+    13:"McLintock",
+    14:"Groves", 
+    15:"Dyer",
+    16:"Taylor", 
+    17:"Williams",
+    18:"Bradley", 
+    19:"Higgins",
+    20:"Hansen", 
+    21:"Jones",
+    22:"Brown", 
+    23:"Kolle",
+    24:"Davies", 
+    25:"Evans",
+    26:"Wilson", 
+    27:"Wood",
+    28:"Lewis", 
+    29:"Roberts",
+    30:"Green",
+    31: "Martin",
+    32: "Cooper",
+    33: "Graham",
+    34: "Stewart",
+    35: "Wilkinson",
+    36: "George",
+    37: "Wells",
+    38: "Chambers",
+    39: "Atkinson",
+    40: "Patel",
+    41: "Campbell",
+    42: "Allen",
+    43: "Anderson",
+    44: "James",
+    45: "Lee",
+    46: "King",
+    47: "Hughes",
+    48: "Leonardsen",
+    49: "Scott",
+    50: "Ward",
+    51: "Hamilton",
+    52: "Andrews",
+    53: "Barnes",
+    54: "Cole",
+    55: "Bergkamp",
+    56: "Ross",
+    56: "Owen",
+    57: "Knight",
+    58: "Khan",
+    59: "Hunt",
+    60: "Carlos",
+    61: "Gordon",
+    62: "Gibson",
+    63: "Armstrong",
+    64: "Ali",
+    65: "Poole",
+    66: "Cox",
+    67: "McConnelly",
+    68: "Harrison",
+    69: "Parker",
+    70: "Lane",
+    71: "Hamm",
+    72: "Gray",
+    73: "Bender",
+    74: "Cain",
+    75: "Brunner",
+    76: "Miller",
+    77: "Hill",
+    78: "Jackson"
+};
+
+$.playerFirstNames = {
+    0:"Sadiq", 
+    1:"John",
+    2:"Frank", 
+    3:"David",
+    4:"Peter", 
+    5:"Jack",
+    6:"Carl", 
+    7:"Alex",
+    8:"Gunnar", 
+    9:"Patrick",
+    10:"Ben", 
+    11:"Freddy",
+    12:"Martin", 
+    13:"Daniel",
+    14:"Tom", 
+    15:"Adam",
+    16:"Sam ", 
+    17:"Ryan",
+    18:"Liam", 
+    19:"Alf",
+    20:"Connor", 
+    21:"Harry",
+    22:"Luke", 
+    23:"Axel",
+    24:"Albert", 
+    25:"George",
+    26:"William", 
+    27:"Bob",
+    28:"Christian", 
+    29:"Jamie",
+    30:"Jordan",
+    31: "Joshua",
+    32: "Oliver",
+    33: "Henry",
+    34: "Dan",
+    35: "Matt",
+    36: "Thomas",
+    37: "Ethan",
+    38: "Michael",
+    39: "Charlie",
+    40: "Raj",
+    41: "Joe",
+    42: "Sean",
+    43: "Steven",
+    44: "Mark",
+    45: "Callum",
+    46: "Nathan",
+    47: "Owen",
+    48: "Oyvind",
+    49: "Toby",
+    50: "Mike",
+    51: "Jonathan",
+    52: "Edward",
+    53: "Kyle",
+    54: "Tony",
+    55: "Bradley",
+    56: "Jay",
+    57: "Zack",
+    58: "Asif",
+    59: "Nick",
+    60: "Robert",
+    61: "Lars",
+    62: "Isaac",
+    63: "Dennis"
 };
 
 $.teamNames = {
@@ -97,10 +212,11 @@ $.init = function () {
     $.players = [];
     
     $.generateRandomObjects();
-  
-    $.renderMatches = false;
+
     $.loop();
 };
+
+
 
 $.sloop = function () {
     $.render();
@@ -139,8 +255,7 @@ $.generateRandomObjects = function () {
     $.team7.setMy(false);
 
     $.events = new $.Event();
-    $.events.addEvent("test");
-    $.match = new $.Match($.team1, $.team2, false);
+   // $.match = new $.Match($.team1, $.team2, false);
 /*
     $.table = new $.Table(6);
     $.table.addTeam($.team1);
@@ -170,32 +285,79 @@ $.generateRandomObjects = function () {
     $.addPlaySeasonButton();
 
   //  $.table.updateTable();
-  $.season.render();
+    $.season.render();
+
+    $.transfer = new $.Transfer();
+
+    for (var i=0; i<12; i++) {
+        $.generatePlayer();
+    }
+    $.generateSpecificPlayer(33, 0, 3, 1, 1, "Freekick expert", 400);
+    for (var i=0; i<29; i++) {
+        $.generatePlayer();
+    }
+
+    $.transfer.render();
 };
+
+$.generatePlayer = function() {
+    var player = new $.Player($.playerFirstNames[$.current_player%64] + " " + $.playerLastNames[$.current_player%79], 27, 1, 4, 5, 4, "", 500);
+    $.players.push(player);
+    $.transfer.addPlayer(player);
+    $.current_player++;
+}
+
+$.generateSpecificPlayer = function(age,keeper,defence,midfield,attack,trait,wage) {
+    var player = new $.Player($.playerFirstNames[$.current_player%64] + " " + $.playerLastNames[$.current_player%79], age, keeper, defence, midfield, attack, trait, wage);
+    $.players.push(player);
+    $.transfer.addPlayer(player);
+    $.current_player++;
+}
+
+$.speedHasChanged = function() {
+    $.addPlaySeasonButton();
+    $.addPlayNextMatchButton();
+    $.season.finishMatchday();
+    $.season.resetMatchdayData();
+};
+
 
 $.addPlaySeasonButton = function() {
 
-    var buffer = '<button onclick="$.playSeason()">Play season</button>';
-
+    var buffer = "";
+    if (parseInt($.season.getSpeed()) === 3) {
+        buffer = '<button onclick="$.playSeason()">Play season</button>';
+    }
     document.getElementById('playSeasonButton').innerHTML = buffer;    
 
 };
 
 $.addPlayNextMatchButton = function() {
 
-    var buffer = '<button onclick="$.playNextMatchday()">Play next match</button>';
-
+    var buffer = "";
+    if (parseInt($.season.getSpeed()) === 1 || parseInt($.season.getSpeed()) === 2) {
+        buffer = '<button onclick="$.playNextMatchday()">Play next match</button>';
+    }
     document.getElementById('playNextMatchButton').innerHTML = buffer;    
 
 };
 
 $.playNextMatchday = function() {
     $.season.simNextMatchday();
+    $.renderAll();
+};
 
+$.renderAll = function() {
+    $.team8.render();
+    $.transfer.render();
+    $.season.render();
 };
 
 $.playSeason = function() {
     $.season.simSeason();
+    $.season.getNextMatchDay();
+    $.renderAll();
+    
 };
 
 $.generateRandomTeam2 = function() {
@@ -229,6 +391,7 @@ $.generateRandomTeam2 = function() {
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
     team.addPlayer($.players[$.current_player]);
+    team.setFreekicktaker($.players[$.current_player]);
     team.setStriker($.players[$.current_player++]);
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
@@ -240,23 +403,23 @@ $.generateRandomTeam2 = function() {
 $.generateTeam1 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setKeeper($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 0, "Fast runner", 1200));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 2, 0, "Fast runner", 1200));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 2, 10, 2, "Freekick expert", 1200));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 2, 10, 2, "Freekick expert", 1200));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 3, "Amazing dribbler", 1200));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 3, "Amazing dribbler", 1200));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 3, 10, "Amazing dribbler", 1200));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 3, 10, "Amazing dribbler", 1200));
     team.addPlayer($.players[$.current_player]);
     team.setStriker($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 4, 5, 4, "Fast runner", 700));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 4, 5, 4, "Fast runner", 700));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -267,23 +430,23 @@ $.generateTeam1 = function() {
 $.generateTeam2 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setKeeper($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 10, 0, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 10, 0, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 2, 10, 2, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 2, 10, 2, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 3, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 3, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 1, "Freekick expert", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 1, "Freekick expert", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 4, 5, 4, "", 500));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 4, 5, 4, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -294,23 +457,23 @@ $.generateTeam2 = function() {
 $.generateTeam3 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setKeeper($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 10, 1, "Freekick expert", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 10, 1, "Freekick expert", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 2, 10, 2, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 2, 10, 2, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 10, "Amazing dribbler", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 10, "Amazing dribbler", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 10, "Amazing dribbler", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 10, "Amazing dribbler", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 4, 5, 4, "", 500));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 4, 5, 4, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -320,23 +483,23 @@ $.generateTeam3 = function() {
 $.generateTeam4 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 0, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 0, 1, 0, 0, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 10, 1, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 10, 1, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 10, 2, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 10, 2, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 10, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 10, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 10, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 10, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -346,23 +509,23 @@ $.generateTeam4 = function() {
 $.generateTeam5 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setKeeper($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 1, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 2, 1, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 2, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 2, 2, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 2, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 2, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 3, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 3, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -373,23 +536,23 @@ $.generateTeam5 = function() {
 $.generateTeam6 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setKeeper($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 1, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 2, 1, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 2, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 2, 2, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 1, 2, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 1, 2, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 3, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 3, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -400,23 +563,23 @@ $.generateTeam6 = function() {
 $.generateTeam7 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setKeeper($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 1, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 2, 1, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 2, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 2, 2, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 1, 2, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 1, 2, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 3, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 2, 3, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -426,23 +589,23 @@ $.generateTeam7 = function() {
 $.generateTeam7 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setKeeper($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 1, 1, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 10, 1, 1, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 2, 10, 2, "Excellent header", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 2, 10, 2, "Excellent header", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 2, "Amazing dribbler", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 10, 2, "Amazing dribbler", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 3, 10, 7, "Freekick expert", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 3, 10, 7, "Freekick expert", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 29, 1, 4, 4, 4, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -452,23 +615,24 @@ $.generateTeam7 = function() {
 $.generateTeam8 = function() {
     var team = new $.Team();
 
-    $.players.push(new $.Player($.playerNames[$.current_player], 28, 10, 1, 0, 0, "", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 28, 3, 1, 0, 0, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setKeeper($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 2, 0, "Excellent header", 1000));
-    team.addPlayer($.players[$.current_player]);
-    team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 2, "Amazing dribbler", 1000));
-    team.addPlayer($.players[$.current_player]);
-    team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 10, 0, 3, "Freekick expert", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 3, 1, 1, 0, "Freekick expert", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setFreekicktaker($.players[$.current_player]);
     team.setDefender($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 1, 10, 0, "Amazing dribbler", 1000));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 4, 1, 10, 2, "Great tackler", 1000));
     team.addPlayer($.players[$.current_player]);
     team.setMidfielder($.players[$.current_player++]);
-    $.players.push(new $.Player($.playerNames[$.current_player], 27, 1, 4, 5, 4, "", 500));
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 6, 0, 3, "Amazing dribbler", 1000));
+    team.addPlayer($.players[$.current_player]);
+    
+    team.setDefender($.players[$.current_player++]);
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 3, 5, "Amazing dribbler", 1000));
+    team.addPlayer($.players[$.current_player]);
+    team.setStriker($.players[$.current_player++]);
+    $.players.push(new $.Player($.playerFirstNames[$.current_player] + " " + $.playerLastNames[$.current_player], 27, 1, 1, 2, 2, "", 500));
     team.addPlayer($.players[$.current_player]);
     team.setSub($.players[$.current_player++]);
 
@@ -525,7 +689,7 @@ $.render = function () {
     if ($.renderMatches) {
         //$.team1.render(5, 450);
         //$.team2.render(5, 500);
-        $.match.render(5, 370);
+        //$.match.render(5, 370);
         //$.events.render();
        // $.season.render();
     }
@@ -535,10 +699,13 @@ $.render = function () {
         $.team3.render(5, 150);
         $.team4.render(5, 200);
         */
-        $.match.render(5, 370);        
+        //$.match.render(5, 370);        
         ///$.table.render();
       //  $.season.render();
     }
+    $.events.render();
+ 
+
 };
 
 window.addEventListener('load', $.init, false);

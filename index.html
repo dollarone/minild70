@@ -15,23 +15,30 @@
     <link rel="stylesheet" type="text/css" href="./css/style.css" />
         <!-- endbuild -->
     <script src="./js/game.js"></script>
-    <script src="./js/draw.js"></script>
-    <script src="./js/util.js"></script>
-    <script src="./js/random_obj.js"></script>
     <script src="./js/player.js"></script>
-    <script src="./js/npcs.js"></script>
-    <script src="./js/map.js"></script>
+    <script src="./js/transfer.js"></script>
     <script src="./js/team.js"></script>
     <script src="./js/event.js"></script>
     <script src="./js/match.js"></script>
     <script src="./js/table.js"></script>
     <script src="./js/season.js"></script>
     <script>
-    function myFunction() {
-        console.log("click");
-    $.season.inspectTeam(3); };
+function handleNameChange(myInput) {
+  $.team8.renameTeam(myInput.value);
+  document.getElementById('updated').innerHTML = "Name updated!";
+}
+function handleSpeedClick(myRadio) {
+  $.season.setSpeed(myRadio.value);
+  $.speedHasChanged();
+}
+function handleShirtClick(myRadio) {
+  $.team8.setShirt(myRadio.value);
+}
+function handleGkshirtClick(myRadio) {
+  $.team8.setGkshirt(myRadio.value);
+}
 var divs = ["Menu1", "Menu2", "Menu3", "Menu4", "Menu5", "Menu6", "Menu7"];
-var visibleDivId = null;
+var visibleDivId = "Menu1";
 function toggleVisibility(divId) {
   if(visibleDivId === divId) {
     //visibleDivId = null;
@@ -55,7 +62,7 @@ function hideNonVisibleDivs() {
 </script>
   </head>
   <body>
-    <div id="header"><h1>Bargainball</h1></div>
+    <div id="header"><br /><h1>Bargainball</h1></div>
       <div id="outer_wrapper">
         <div id="wrapper">
           <div id="container">
@@ -67,13 +74,13 @@ function hideNonVisibleDivs() {
                   </div><div class="button">
                   <a href="#" onclick="toggleVisibility('Menu2');">My Team</a>
                   </div><div class="button">
-                  <a href="#" onclick="toggleVisibility('Menu3');">Matches</a>
+                  <a href="#" onclick="toggleVisibility('Menu3');$.season.getNextMatchDay();">Matches</a>
                   </div><div class="button">
                   <a href="#" onclick="toggleVisibility('Menu4');$.season.inspectTeam(-1);">Table</a>
                   </div><div class="button">
                   <a href="#" onclick="toggleVisibility('Menu5');">Transfer</a>
                   </div><div class="button">
-                  <a href="#" onclick="toggleVisibility('Menu6');">Options</a>
+                  <a href="#" onclick="toggleVisibility('Menu6'); document.getElementById('updated').innerHTML = '';">Options</a>
                   </div><div class="button">
                   <a href="#" onclick="toggleVisibility('Menu7');">Rules</a>
                   </div>
@@ -81,94 +88,229 @@ function hideNonVisibleDivs() {
               </div>
               <div id="main">
                 
-                <div id="Menu1" style="display: none;">I'm container <strike>two</strike> one</div>
-                <div id="Menu2">
+                <div id="Menu1">
+                  <br />
+                  <div><h2>News</h2></div>
+                  <br />
+                  <div id="news">
+<p>
+It's 2016 and football has for a long time been completely figured out by statisticians and big computers. One can now calculate the outcome of a match - or even a season - by looking at the team and players' stats and probabilities. 
+</p>
+<p>
+One might think this would lead to football becoming boring and no longer interesting; but instead the opposite has happened, as now clever use of the stats can allow smaller and less rich clubs to succeed through analysis and statistics. 
+</p>
+<p>You have just been appointed manager of Sherwood Forest, who finished last in their division last year. However, the board has given you complete control over the club, in the hope that you can use your statistical powers to bring glory to the club. 
+</p>
+<p>
+You can customize your club under Options; view your current players and set the lineup under My Team; give trials/contracts to players without clubs in the Transfer section, and play matches under Matches.</p>
+<p>
+Note that no further transfers or changes in lineup can be made once the season has started. You must also stay within the budget the board has given you, or the club will go bankrupt.</p>
+<p>A good tip is to read the Rules, as they might assist you in hiring the right players to achieve glory for the club once again. However, because of your budget, you will have to make sure every player fits with your overall tactic.</p>
+
+<p>Welcome to Bargainball!
+</p>
+                  </div>
+                  <br />
+                </div>
+                <div id="Menu2" style="display: none;">
                   <br />
                   <div id="team"></div>
                   <br />
                 </div>
                 <div id="Menu3" style="display: none;">
+                  <br />
+                  <table class="valigntop">
+                    <tr class="valigntop">
+                      <td class="valigntop">
+                        <div id="prevMatchDay"></div>
+                      </td>
+                      <td>
+                        <div id="matchDay"></div>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td class="valigntop">
+                        <div id="prevMatches"></div>
+                      </td>
+                      <td>
+                        <div id="nextMatches"></div>
+                      </td>
+                    </tr>
+                  </table>
+                  <br />
+                  <div id="matchTeams"></div>
+                  <div id="matchScore"></div>
+                  <br />
                   <div id="events"></div>
+                  <div id="matchTime"></div>
+                  <br />
+                  <br />
+                  <div id="nextMatch"></div>
                   <br />
                   <div id="playNextMatchButton"></div>
                   <div id="playSeasonButton"></div>
+                  <br />
                 </div>
                 <div id="Menu4" style="display: none;">
                   <br/>
                   <div id="table"></div>
                   <br/>
                 </div>
-                <div id="Menu5" style="display: none;">I'm container 5</div>
+                <div id="Menu5" style="display: none;">
+                  <br />
+                  <div id="options"><h2>Free transfer list</h2></div>
+                  <br />
+                    <div id="transfer"></div>
+                  <br />
+                </div>
                 <div id="Menu6" style="display: none;">
-                  <form action="">
+                  <br />
+                  <div id="options"><h2>Customize your team</h2></div>
+                  <form action="#" onSubmit="return false;" id="foo">
                     <table>
-                      <tr class="rowpadding"> 
-                        <td class="rowpadding">
-                          <input type="radio" name="shirt" value="0">
-                        </td>
-                        <td class="rowpadding">
-                          <div class="yoffset img-container"><img class="top y0" src="img/sprites.png" alt=""></div>
-                        </td>
-                      </tr>
-                      <tr> 
-                        <td class="rowpadding">
-                          <input type="radio" name="shirt" value="1">
-                        </td>
-                        <td class="rowpadding">
-                          <div class="yoffset img-container"><img class="top y1" src="img/sprites.png" alt=""></div>
+                      <tr>
+                        <td colspan="2">
+                          Team name:
+                          <input id="name" value="Sherwood Forest" onchange="handleNameChange(this);">
+                          <br /><br />
+                          <div id="updated"></div>
+                          <br />
                         </td>
                       </tr>
-                        <td class="rowpadding">
-                          <input type="radio" name="shirt" value="2">
+                      <tr>
+                        <td>
+                          Team shirt:
+                          <table>
+                            <tr class="rowpadding"> 
+                              <td class="rowpadding">
+                                <input type="radio" name="shirt" value="0" checked onchange="handleShirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y0" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="shirt" value="1" onchange="handleShirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y1" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="shirt" value="2" onchange="handleShirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y2" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="shirt" value="3" onchange="handleShirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y3" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="shirt" value="4" onchange="handleShirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y4" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="shirt" value="5" onchange="handleShirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y5" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="shirt" value="6" onchange="handleShirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y6" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="shirt" value="7" onchange="handleShirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y7" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                          </table>
                         </td>
-                        <td class="rowpadding">
-                          <div class="yoffset img-container"><img class="top y2" src="img/sprites.png" alt=""></div>
+                        <td class="valigntop cellpadding">
+                          Goalkeeper shirt:
+                          <table class="cellpadding">
+                            <tr>
+                              <td class="rowpadding">
+                                <input type="radio" name="gkshirt" value="11" checked onchange="handleGkshirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y11" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="gkshirt" value="9" onchange="handleGkshirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y9" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="gkshirt" value="10" onchange="handleGkshirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y10" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                            <tr> 
+                              <td class="rowpadding">
+                                <input type="radio" name="gkshirt" value="8" onchange="handleGkshirtClick(this);">
+                              </td>
+                              <td class="rowpadding">
+                                <div class="yoffset img-container"><img class="top y8" src="img/sprites.png" alt=""></div>
+                              </td>
+                            </tr>
+                          </table>
                         </td>
                       </tr>
-                      <tr> 
-                        <td class="rowpadding">
-                          <input type="radio" name="shirt" value="3">
-                        </td>
-                        <td class="rowpadding">
-                          <div class="yoffset img-container"><img class="top y3" src="img/sprites.png" alt=""></div>
+                      <tr>
+                        <td colspan="2"><br /><h3>Speed</h3>
                         </td>
                       </tr>
-                        <td class="rowpadding">
-                          <input type="radio" name="shirt" value="4">
-                        </td>
-                        <td class="rowpadding">
-                          <div class="yoffset img-container"><img class="top y4" src="img/sprites.png" alt=""></div>
+                      <tr>
+                        <td colspan="2">
+                          <input type="radio" name="speed" value="1" checked onchange="handleSpeedClick(this);">Play game with normal speed (One game at a time, render events)
                         </td>
                       </tr>
-                      <tr> 
-                        <td class="rowpadding">
-                          <input type="radio" name="shirt" value="5">
-                        </td>
-                        <td class="rowpadding">
-                          <div class="yoffset img-container"><img class="top y5" src="img/sprites.png" alt=""></div>
+                      <tr>
+                        <td colspan="2">
+                          <input type="radio" name="speed" value="2" onchange="handleSpeedClick(this);">Play game with fast speed (One game at a time, no rendering)
                         </td>
                       </tr>
-                        <td class="rowpadding">
-                          <input type="radio" name="shirt" value="6">
-                        </td>
-                        <td class="rowpadding">
-                          <div class="yoffset img-container"><img class="top y6" src="img/sprites.png" alt=""></div>
+                      <tr>
+                        <td colspan="2">
+                          <input type="radio" name="speed" value="3" onchange="handleSpeedClick(this);">Play game with super-fast speed (One season at a time)
                         </td>
                       </tr>
-                      <tr> 
-                        <td class="rowpadding">
-                          <input type="radio" name="shirt" value="7">
-                        </td>
-                        <td class="rowpadding">
-                          <div class="yoffset img-container"><img class="top y7" src="img/sprites.png" alt=""></div>
-                        </td>
-                      </tr>
-                    </table>
+                    </table>  
                   </form>
                   <br />
                 </div>
-
-                <div id="Menu7" style="display: none;"><br /><p>
+                <div id="Menu7" style="display: none;">
+                <br />
+                  <div><h2>Rules</h2></div><p>
 So! How do you win games?</p>
 <p>
 Ah! that part, at least, is easy. It's 2016 and statistics have finally conquered football completely. Each match can be totally predicted by the various players on each team and their attributes. The way it works, according to John Gunnarsen, a stats expert, is thus:</p>
@@ -196,13 +338,12 @@ Ah! that part, at least, is easy. It's 2016 and statistics have finally conquere
           </div>
         </div>
         <div id="sidebar">
-            <h1>sidebar</h1>
-            <p>Here be your sidebar. Add whatever content you may desire.</p>
+            
         </div>
         <div class="clearing">&nbsp;</div>
       </div>
     </div>
 
-    <div id="footer">footer</div>  
+    <div id="footer">&nbsp;</div>  
   </body>
 </html>

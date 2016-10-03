@@ -89,6 +89,14 @@ table {
     padding-top: 10px;
 }
 
+.cellpadding {
+    padding-left: 50px;
+}
+
+.valigntop {
+    vertical-align: top;
+}
+
 .yoffset {
     top: -50px;
 }
@@ -219,7 +227,7 @@ table {
   #container {
     width: 100%;
     float: left;
-    margin-right: -200px;
+    margin-right: -150px;
   }
   #main {
     margin-left: 150px;
@@ -230,17 +238,20 @@ table {
     height: 100%;
   }
   #sidebar {
-    width: 200px;
+    width: 150px;
     float: right;
   }
   #content {
-    margin-right: 200px;
+    margin-right: 150px;
     height: 100%;
   }
   #buttons {
     height: 20%;
     float: left;
     padding-top: 40px;
+  }
+  .button {
+    padding-top: 20px;
   }
 
 }
@@ -262,6 +273,10 @@ table {
   }
   #button {
     float: left;
+  }
+  #news {
+    padding-left: 300px;
+    padding-right: 300px;
   }
 
 }

@@ -8,20 +8,34 @@ $.Event = function() {
 };
 
 
-$.Event.prototype.addEvent = function (text) {
-    this.list.push({id:this.id++, text:text, fade:150});
+$.Event.prototype.addEvent = function (hometeam, hometeamgoals, awayteam, awayteamgoals, time, text) {
+    this.list.push({id:this.id++, hometeam:hometeam, hometeamgoals:hometeamgoals, awayteam:awayteam, awayteamgoals:awayteamgoals, time:time, text:text, fade:2});
     this.events++;
 
 };
 $.Event.prototype.render = function () {
-    var buffer = "<ul>";
+    var buffer = "";
     for (var i=0; i<this.events; i++) {
         if( this.list[i].fade > 0) {
-            buffer += "<li style='color: " + $.colors["skyblue"] + "; opacity:" + this.list[i].fade/100 + ";'>" + this.list[i].text + "</li>";
+            buffer += "<p style='color: " + $.colors["skyblue"] + "; opacity:" + this.list[i].fade/100 + ";'>" + this.list[i].text + "</p>";
+            //buffer += "</p>";
+            document.getElementById('matchTime').innerHTML = this.list[i].time + " mins";
+            document.getElementById('matchTeams').innerHTML = "<h2>" + this.list[i].hometeam + " - " + this.list[i].awayteam + "</h2>";
+            document.getElementById('matchScore').innerHTML = this.list[i].hometeamgoals + " - " + this.list[i].awayteamgoals;
+
+            document.getElementById('events').innerHTML = buffer;
+
+
+            if (this.list[i].text === "The ref blows his whistle for full time." && this.list[i].fade === 2) {
+                $.season.finishMatchday();
+
+            }
+            
+            this.list[i].fade -= 3;
+
+            return;
         }
     }
-    buffer += "</ul>";
-    document.getElementById('events').innerHTML = buffer;
     
 };
 
@@ -34,7 +48,7 @@ $.Event.prototype.getAll = function () {
 $.Event.prototype.update = function () {
     for (var i=0; i<this.events; i++) {
         if (this.list[i].fade > 0) {
-            this.list[i].fade -= 0.5;
+            
         }
     }
 };
