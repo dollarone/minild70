@@ -485,7 +485,7 @@ $.Team.prototype.generateTeamTable = function () {
     buffer += "</table>";
     buffer += "Totals: <table><tr><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Total Wage</td>";
     if (this.my) {
-        buffer += "<td>Max Wage</td>";
+        buffer += "<td>Max Total Wage</td>";
     }
     buffer += "</tr>";
     buffer += "<tr><td>" + this.totalKeeperSkill + "</td><td>" + this.totalDefenderSkill + "</td><td>" +
