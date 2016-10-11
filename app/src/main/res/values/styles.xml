@@ -1,0 +1,10 @@
+<resources>
+    <color name="primary">#b0b0ff</color>
+    <color name="primary_dark">#ffffff</color>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat">
+        <!-- Customize your theme here. -->
+        <!--   your app branding color for the app bar -->
+    </style>
+
+</resources>
