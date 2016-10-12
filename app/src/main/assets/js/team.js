@@ -343,21 +343,6 @@ $.Team.prototype.hasFastRunner = function () {
         var player = this.players[key];
         if (player.position != "Substitute" && player.position != "Goalkeeper" 
             && player.trait === "Fast runner") {
-        //    console.log("hasfastTA" + player.name);
-            return true;
-        }
-    }, this);
-    return false;
-};
-
-$.Team.prototype.hasFastRunnerAtt = function () {
-    var keys = Object.keys(this.players);
-    keys.forEach(function(key) {
-        var player = this.players[key];
-        if (player.position != "Substitute" && player.position != "Goalkeeper" 
-           // && player.position != "Defender" 
-            && player.trait === "Fast runner") {
-      //      console.log("hasfastattTA" + player.name);
             return true;
         }
     }, this);
