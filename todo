@@ -42,3 +42,22 @@ some kind of helper doing the tutorial?
 next: view other team. play a match. make any player clickable and have a "highlighted player" section
 next: looks like the matches are using static value. need to look up current stats (for player team at least)
 next: verify which values are being used for match sim!
+
+Wage system:
+1 0-100
+2 150
+3 400
+4 600 
+5 1000
+6 1600
+7 2600
+8 4200
+9 6800
+10 11000
+
+anything below 3 is 1/100 per point
+secondary (-1) is 1/5
+secondary (-2) is 1/10
+secondary (-3) is 1/100 per point
+
+trait = +500
