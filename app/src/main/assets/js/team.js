@@ -294,24 +294,17 @@ $.Team.prototype.updateSkills = function () {
         this.totalWage += parseInt(this.keeper[0].wage);
     }
     this.totalDefenderSkill = 0;
-    this.totalMidfielderSkill = 0;
-    this.totalStrikerSkill = 0;
-
     for (var i=0; i<this.defenderCount; i++) {
         this.totalDefenderSkill += this.defenders[i].defence;
-        this.totalMidfielderSkill += this.defenders[i].midfield;
-        this.totalStrikerSkill += this.defenders[i].attack;
         this.totalWage += parseInt(this.defenders[i].wage);
     }       
+    this.totalMidfielderSkill = 0;
     for (var i=0; i<this.midfielderCount; i++) {
-        this.totalDefenderSkill += this.midfielders[i].defence;
         this.totalMidfielderSkill += this.midfielders[i].midfield;
-        this.totalStrikerSkill += this.midfielders[i].attack;
         this.totalWage += parseInt(this.midfielders[i].wage);
     }
+    this.totalStrikerSkill = 0;
     for (var i=0; i<this.strikerCount; i++) {
-        this.totalDefenderSkill += this.strikers[i].defence;
-        this.totalMidfielderSkill += this.strikers[i].midfield
         this.totalStrikerSkill += this.strikers[i].attack;
         this.totalWage += parseInt(this.strikers[i].wage);
     }
@@ -343,6 +336,20 @@ $.Team.prototype.hasFastRunner = function () {
         var player = this.players[key];
         if (player.position != "Substitute" && player.position != "Goalkeeper" 
             && player.trait === "Fast runner") {
+        //    console.log("hasfastTA" + player.name);
+            return true;
+        }
+    }, this);
+    return false;
+};
+
+$.Team.prototype.hasFastRunnerAtt = function () {
+    var keys = Object.keys(this.players);
+    keys.forEach(function(key) {
+        var player = this.players[key];
+        if (player.position != "Substitute" && player.position != "Goalkeeper" 
+            && player.position != "Defender" && player.trait === "Fast runner") {
+      //      console.log("hasfastattTA" + player.name);
             return true;
         }
     }, this);
@@ -368,8 +375,7 @@ $.Team.prototype.countDribblers = function () {
     keys.forEach(function(key) {
         var player = this.players[key];
         if (player.position != "Substitute" && player.position != "Goalkeeper" 
-           // && player.position != "Defender"
-            && player.trait === "Amazing dribbler") {
+            && player.position != "Defender" && player.trait === "Amazing dribbler") {
             dribblers++;
         }
     }, this);
@@ -410,26 +416,52 @@ $.Team.prototype.generateTeamTable = function () {
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
         var player = this.players[key];
+        var face = player.offset % 5;
+        // 1==small
+        // ?==pondus face
         buffer += "<tr style='text-align: right; color: " + $.colors["cloudblue"] + ";'>" ;
         buffer += '<td><div class="img-container">' +
-            '<img class="top z8" src="img/10bighair1.png" alt="">';
-        if (player.id % 3 == 0) {
-            buffer += '<img class="top z7" src="img/20happymouth.png" alt="">';
+            '<img class="top z8 y' + player.offset % 6 + '" src="img/hair.png" alt="">';
+        
+        buffer += '<img class="top z7 y';
+        if (face === 1) {
+            buffer += player.offset % 4;
         }
         else {
-            buffer += '<img class="top z7" src="img/20sourmouth.png" alt="">';
+            buffer += player.offset % 6;
 
         }
-        buffer += '<img class="top z6" src="img/30twodaybeard.png" alt="">' +
-            '<img class="top z5" src="img/40smallpupils.png" alt="">' +
-            '<img class="top z4" src="img/50smalleyes.png" alt="">' +
-            '<img class="top z3" src="img/70nose1.png" alt="">';
-        if (player.id % 2 == 0) {
-            buffer += '<img class="top z2" src="img/80bigface.png" alt="">';
+        buffer += '" src="img/mouths.png" alt="">';
+        
+        if (face === 10) {
+            buffer += '<img class="top z6 y' + player.offset % 5 + '" src="img/noses.png" alt="">';
         }
         else {
-            buffer += '<img class="top z2" src="img/81bigface2.png" alt="">';
+            buffer += '<img class="top z6 y' + player.offset % 4 + '" src="img/noses.png" alt="">';
         }
+
+        if (false) {
+        buffer +=
+            '<img class="top z5" src="img/40smallpupils.png" alt="">' +
+            '<img class="top z4" src="img/50smalleyes.png" alt="">';
+        }
+
+        var eye = (((player.offset + player.id) % 5) * 2) + 1
+        if (player.id === ((6*7) +2)) {//} && player.id % 3 == 0) {
+            buffer += '<img class="top z4 y13" src="img/eyespupils.png" alt="">';
+            
+        }
+        else {
+            buffer += '<img class="top z5 y' + (eye + 1) + '" src="img/eyespupils.png" alt="">';
+            buffer += '<img class="top z4 y' + eye + '" src="img/eyespupils.png" alt="">';
+        }
+
+        buffer += '<img class="top z3 y' + (player.offset + 3) % 5 + '" src="img/beards.png" alt="">';
+        // +           '<img class="top z3" src="img/70nose1.png" alt="">';
+
+        
+        buffer += '<img class="top z2 y' + player.offset % 5 + '" src="img/faces.png" alt="">';
+        
         buffer += '<img class="top z1';
         if (player.position == "Goalkeeper") {
             buffer += ' y' + this.gkshirt;
@@ -437,8 +469,13 @@ $.Team.prototype.generateTeamTable = function () {
         else {
             buffer += ' y' + this.shirt;
         }
-        buffer += '" src="img/sprites.png" alt="">' +
-            '<img class="bot" src="img/99background.png" alt="">' +
+        buffer += '" src="img/sprites.png" alt="">';
+
+        if (player.offset % 8 > 6) {
+            buffer += '<img class="top z0 y' + player.offset % 3 + '" src="img/bighair.png" alt="">';
+        }
+
+        buffer += '<img class="bot" src="img/99background.png" alt="">' +
             '</div></td>';
         buffer += "<td style='text-align: left;'>" +
             player.name + "</td><td>" + player.age + "</td><td>" + player.keeper + "</td><td>" + player.defence + "</td><td>" + 

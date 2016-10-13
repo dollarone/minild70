@@ -33,8 +33,7 @@ $.Season.prototype.getSpeed = function() {
 
 $.Season.prototype.addTeam = function (team) {
 	if (this.teamCount < this.maxTeamCount) {
-	//	this.teams[team.id] = team;
-                this.teams[this.teamCount] = team;
+		this.teams[team.id] = team;
 		this.teamCount++;
 	}
 };
@@ -229,7 +228,7 @@ $.Season.prototype.getNextMatchDay = function() {
 		document.getElementById('prevMatches').innerHTML = "";
 		document.getElementById('prevMatchDay').innerHTML = "";
 	}
-	else if (this.matchDaysFinished > this.matchDaysPlayed-1) {
+	else if (this.matchDaysFinished > this.matchDaysPlayed-1 ) {
 		if (this.matchDaysPlayed < this.matchDayCount) {
 			var buffer = "";
 			for (var i=0; i<this.matchDay[this.matchDaysPlayed].length; i++) {
