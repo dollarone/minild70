@@ -81,40 +81,138 @@ h2, h3 {
 }
 
 table {
-   border-spacing: 3px;
+    border-spacing: 3px;
     margin: 0 auto; 
 }
 
-.img-container { position: relative; }
-
-.img-container .top {
-  position: absolute;
-  top: 0;
-  left: 0;
+.rowpadding {
+    padding-top: 10px;
 }
 
-.img-container .z1 {
-    z-index: 1;
+.cellpadding {
+    padding-left: 50px;
+}
+
+.valigntop {
+    vertical-align: top;
+}
+
+.yoffset {
+    top: -50px;
+}
+
+.img-container { 
+    position: relative; 
+}
+
+.top {
+  position: absolute;
+}
+
+.nottop {
+      top: 0;
+  left: 0;
+
+}
+.y0 {
+    clip: rect(0px,64px,64px,0px);
+}
+
+.y1 {
+    clip: rect(64px,64px,128px,0px);
+    top: -64px;
+}
+
+.y2 {
+    clip: rect(128px,64px,192px,0px);
+    top: -128px;
+}
+
+.y3 {
+    clip: rect(192px,64px,256px,0px);
+    top: -192px;
+}
+
+.y4 {
+    clip: rect(256px,64px,320px,0px);
+    top: -256px;
+}
+
+.y5 {
+    clip: rect(320px,64px,384px,0px);
+    top: -320px;
+}
+
+.y6 {
+    clip: rect(384px,64px,448px,0px);
+    top: -384px;
+}
+
+.y7 {
+    clip: rect(448px,64px,512px,0px);
+    top: -448px;
+}
+
+.y8 {
+    clip: rect(512px,64px,576px,0px);
+    top: -512px;
+}
+
+.y9 {
+    clip: rect(576px,64px,640px,0px);
+    top: -576px;
+}
+
+.y10 {
+    clip: rect(640px,64px,704px,0px);
+    top: -640px;
+}
+
+.y11 {
+    clip: rect(704px,64px,768px,0px);
+    top: -704px;
+}
+
+.y12 {
+    clip: rect(768px,64px,832px,0px);
+    top: -768px;
+}
+
+.y13 {
+    clip: rect(832px,64px,896px,0px);
+    top: -832px;
+}
+
+.z0 {
+    z-index: 0;    
+}
+
+.z1 {
+    z-index: 1;    
+}
+.totootot {
+    clip: rect(0px,64px,64px,0px);
 } 
-.img-container .z2 {
+.z2 {
     z-index: 2;
+    position: absolute;
 } 
-.img-container .z3 {
+.z3 {
     z-index: 3;
 } 
-.img-container .z4 {
+.z4 {
     z-index: 4;
 } 
-.img-container .z5 {
+.z5 {
     z-index: 5;
 } 
-.img-container .z6 {
+.z6 {
     z-index: 6;
 } 
-.img-container .z7 {
+.z7 {
     z-index: 7;
 } 
-.img-container .z8 {
+.z8 {
     z-index: 8;
 } 
 
@@ -138,7 +236,7 @@ table {
   #container {
     width: 100%;
     float: left;
-    margin-right: -200px;
+    margin-right: -150px;
   }
   #main {
     margin-left: 150px;
@@ -149,17 +247,20 @@ table {
     height: 100%;
   }
   #sidebar {
-    width: 200px;
+    width: 150px;
     float: right;
   }
   #content {
-    margin-right: 200px;
+    margin-right: 150px;
     height: 100%;
   }
   #buttons {
     height: 20%;
     float: left;
     padding-top: 40px;
+  }
+  .button {
+    padding-top: 20px;
   }
 
 }
@@ -181,6 +282,10 @@ table {
   }
   #button {
     float: left;
+  }
+  #news {
+    padding-left: 300px;
+    padding-right: 300px;
   }
 
 }

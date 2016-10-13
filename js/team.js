@@ -27,8 +27,9 @@ $.Team = function() {
     this.totalMidfielderSkill = 0;
     this.totalStrikerSkill = 0;
     this.totalWage = 0;
+    this.maxWage = 5000;
 
-    this.freekickTaker = null;
+    this.freekickTaker = -1;
 
     this.points = 0;
     this.goalsFor = 0;
@@ -38,11 +39,12 @@ $.Team = function() {
     this.wins = 0;
     this.draws = 0;
     this.losses = 0;
-    this.foo = this.keeperCount + this.defenderCount + this.midfielderCount + this.strikerCount;
+    this.shirt = this.id;
+    this.gkshirt = (this.id % 4) + 8;
 };
 
 $.Team.prototype.teamFull = function () {
-    return (5 <= this.keeperCount + this.defenderCount + this.midfielderCount + this.strikerCount);
+    return (this.keeperCount + this.defenderCount + this.midfielderCount + this.strikerCount >= 5);
 };
 
 $.Team.prototype.setKeeper = function (player) {
@@ -84,25 +86,26 @@ $.Team.prototype.setPosById = function (id) {
     
     for (var i=0; i<this.playerCount; i++) {
         if (this.players[i].id === id) {
+            this.unsetPlayer(this.players[i]);
             if (pos === "Substitute") {
-                this.subCount = this.setPlayerType(this.players[id], this.subs, this.subCount, "Substitute");
+                this.subCount = this.setPlayerType(this.players[i], this.subs, this.subCount, "Substitute");
             }
             else if (pos === "Goalkeeper") {
-                this.setKeeper(this.players[id]);
+                this.setKeeper(this.players[i]);
             }
             else if (pos === "Defender") {
-                this.defenderCount = this.setPlayerType(this.players[id], this.defenders, this.defenderCount, "Defender");
+                this.defenderCount = this.setPlayerType(this.players[i], this.defenders, this.defenderCount, "Defender");
             }
             else if (pos === "Midfielder") {
-                this.midfielderCount = this.setPlayerType(this.players[id], this.midfielders, this.midfielderCount, "Midfielder");
+                this.midfielderCount = this.setPlayerType(this.players[i], this.midfielders, this.midfielderCount, "Midfielder");
             }
             else if (pos === "Striker") {
-                this.strikerCount = this.setPlayerType(this.players[id], this.strikers, this.strikerCount, "Striker");
+                this.strikerCount = this.setPlayerType(this.players[i], this.strikers, this.strikerCount, "Striker");
             }
-            this.updateSkills();
-            this.render();
         }
     }
+    this.updateSkills();
+    this.render();
 };
 $.Team.prototype.setFreekicktaker = function (player) {
     if (!this.my) {
@@ -110,14 +113,43 @@ $.Team.prototype.setFreekicktaker = function (player) {
     }
     for (var i=0; i<this.playerCount; i++) {
         if (this.players[i].id === player.id) {
-            this.freekickTaker = player;
+            this.freekickTaker = player.id;
         }
     }
 };
 
+$.Team.prototype.setFreekicktakerById = function (id) {
+    if (!this.my) {
+        return;
+    }
+    for (var i=0; i<this.playerCount; i++) {
+        if (this.players[i].id === id) {
+            this.freekickTaker = this.players[i].id;
+        }
+    }
+    this.render();
+};
+
+$.Team.prototype.getFreekickTaker = function (player) {
+    for (var i=0; i<this.playerCount; i++) {
+        if (this.players[i].id === this.freekickTaker) {
+            return this.players[i];
+        }
+    }
+};
+
+$.Team.prototype.assignDefaultFreekickTaker = function (player) {
+    for (var i=0; i<this.playerCount; i++) {
+        if (this.players[i].position != "Substitute") {
+            this.freekickTaker = this.players[i].id;
+        }
+    }
+
+};
+
 
 $.Team.prototype.hasKeeper = function() {
-    return this.keeperCount == 1;
+    return this.keeperCount === 1;
 
 };
 $.Team.prototype.setDefender = function (player) {
@@ -156,9 +188,12 @@ $.Team.prototype.setPlayerType = function (player, playerTypeArray, playerTypeCo
         return;
     }
 
-    if (player.position == "Substitute" && pos != "Substitute" && this.teamFull()) {
-        alert("Only 5 players allowed - put someone on the bench first");
+    if (player.position === "Substitute" && pos != "Substitute" && this.teamFull()) {
+        document.getElementById('error').innerHTML = "<div style='color: " + $.colors["red"] + "';>Only 5 players allowed - make someone a Substitute first!</div>";
         return playerTypeCount;
+    }
+    else {
+        document.getElementById('error').innerHTML = "";
     }
     var index = this.players.indexOf(player);
     if (index != -1) {
@@ -199,6 +234,20 @@ $.Team.prototype.unsetPlayer = function (player) {
     this.updateSkills();
 };
 
+$.Team.prototype.addPlayerById = function (id) {
+    for (var i=0; i < $.current_player; i++ ) {
+        if ($.players[i].id === id) {
+            this.players.push($.players[i]);
+            this.playerCount++;
+//    console.log("adding " + player.id + " " + player.attack);
+            this.setSub($.players[i]);
+            this.updateSkills();
+        }
+    }
+    this.render();
+};
+
+
 $.Team.prototype.addPlayer = function (player) {
     this.players.push(player);
     this.playerCount++;
@@ -213,8 +262,29 @@ $.Team.prototype.removePlayer = function (player) {
         this.unsetPlayer(player);
         this.players.splice(index, 1);
         this.playerCount--;
-        console.log("removing " + player.id);
+        //console.log("removing " + player.id);
     }
+};
+
+$.Team.prototype.releasePlayer = function (id) {
+    if (!this.my) {
+        return;
+    }
+    var playerToBeRemoved = null;
+    var keys = Object.keys(this.players);
+    keys.forEach(function(key) {
+        var player = this.players[key];
+        if (player.id === id) {
+            playerToBeRemoved = player;
+        }
+    }, this);
+    if (playerToBeRemoved != null) {
+        this.removePlayer(playerToBeRemoved); 
+        $.transfer.addPlayer(playerToBeRemoved);
+        this.render();
+        $.transfer.render();
+    }
+
 };
 
 $.Team.prototype.updateSkills = function () {
@@ -252,7 +322,7 @@ $.Team.prototype.hasTackler = function () {
     keys.forEach(function(key) {
         var player = this.players[key];
         if (player.position === "Defender" && player.trait === "Great tackler") {
-            console.log("TA has Great tackler" + player.name);
+            //console.log("TA has Great tackler" + player.name);
             return true;
         }
     }, this);
@@ -264,8 +334,9 @@ $.Team.prototype.hasFastRunner = function () {
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
         var player = this.players[key];
-        if (player.position != "Substitute" && player.position != "Goalkeeper" && player.trait === "Fast runner") {
-            console.log("hasfastTA" + player.name);
+        if (player.position != "Substitute" && player.position != "Goalkeeper" 
+            && player.trait === "Fast runner") {
+        //    console.log("hasfastTA" + player.name);
             return true;
         }
     }, this);
@@ -278,7 +349,7 @@ $.Team.prototype.hasFastRunnerAtt = function () {
         var player = this.players[key];
         if (player.position != "Substitute" && player.position != "Goalkeeper" 
             && player.position != "Defender" && player.trait === "Fast runner") {
-            console.log("hasfastattTA" + player.name);
+      //      console.log("hasfastattTA" + player.name);
             return true;
         }
     }, this);
@@ -294,7 +365,7 @@ $.Team.prototype.countHeaders = function () {
             headers++;
         }
     }, this);
-    console.log("TAhas headers= " + headers);
+    //console.log("TAhas headers= " + headers);
     return headers;
 };
 
@@ -308,8 +379,30 @@ $.Team.prototype.countDribblers = function () {
             dribblers++;
         }
     }, this);
-    console.log("TAhas dribblers= " + dribblers);
+    //console.log("TAhas dribblers= " + dribblers);
     return dribblers;
+};
+
+$.Team.prototype.renameTeam = function (newname) {
+    if (this.my) {
+        this.name = newname;
+        this.render();
+        $.season.renderTable();
+    }
+};
+
+$.Team.prototype.setShirt = function (shirt) {
+    if (this.my) {
+        this.shirt = shirt;
+        this.render();
+    }
+};
+
+$.Team.prototype.setGkshirt = function (gkshirt) {
+    if (this.my) {
+        this.gkshirt = gkshirt;
+        this.render();
+    }
 };
 
 $.Team.prototype.generateTeamTable = function () {
@@ -317,58 +410,142 @@ $.Team.prototype.generateTeamTable = function () {
     var buffer = "<h2>" + this.name + "</h2><br /><table>";
 
     buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td /><td style='text-align: left;'>Name" +
-        "</td><td>Age</td><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Trait</td><td>Wage</td><td>Position</td></tr>";
+        "</td><td>Age</td><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Trait</td><td>Wage</td><td>Freekick taker</td><td>Position</td><td></td></tr>";
 
+    this.totalWage = 0;
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
         var player = this.players[key];
+        var face = player.offset % 5;
+        // 1==small
+        // ?==pondus face
         buffer += "<tr style='text-align: right; color: " + $.colors["cloudblue"] + ";'>" ;
         buffer += '<td><div class="img-container">' +
-            '<img class="top z8" src="img/10bighair1.png" alt="">';
-        if (player.id % 3 == 0) {
-            buffer += '<img class="top z7" src="img/20happymouth.png" alt="">';
+            '<img class="top z8 y' + player.offset % 6 + '" src="img/hair.png" alt="">';
+        
+        buffer += '<img class="top z7 y';
+        if (face === 1) {
+            buffer += player.offset % 4;
         }
         else {
-            buffer += '<img class="top z7" src="img/20sourmouth.png" alt="">';
+            buffer += player.offset % 6;
 
         }
-        buffer += '<img class="top z6" src="img/30twodaybeard.png" alt="">' +
-            '<img class="top z5" src="img/40smallpupils.png" alt="">' +
-            '<img class="top z4" src="img/50smalleyes.png" alt="">' +
-            '<img class="top z3" src="img/70nose1.png" alt="">';
-        if (player.id % 2 == 0) {
-            buffer += '<img class="top z2" src="img/80bigface.png" alt="">';
+        buffer += '" src="img/mouths.png" alt="">';
+        
+        if (face === 10) {
+            buffer += '<img class="top z6 y' + player.offset % 5 + '" src="img/noses.png" alt="">';
         }
         else {
-            buffer += '<img class="top z2" src="img/81bigface2.png" alt="">';
+            buffer += '<img class="top z6 y' + player.offset % 4 + '" src="img/noses.png" alt="">';
         }
-        buffer += '<img class="top z1" src="img/91redshirt.png" alt="">' +
-            '<img class="bot" src="img/99background.png" alt="">' +
+
+        if (false) {
+        buffer +=
+            '<img class="top z5" src="img/40smallpupils.png" alt="">' +
+            '<img class="top z4" src="img/50smalleyes.png" alt="">';
+        }
+
+        var eye = (((player.offset + player.id) % 5) * 2) + 1
+        if (player.id === ((6*7) +2)) {//} && player.id % 3 == 0) {
+            buffer += '<img class="top z4 y13" src="img/eyespupils.png" alt="">';
+            
+        }
+        else {
+            buffer += '<img class="top z5 y' + (eye + 1) + '" src="img/eyespupils.png" alt="">';
+            buffer += '<img class="top z4 y' + eye + '" src="img/eyespupils.png" alt="">';
+        }
+
+        buffer += '<img class="top z3 y' + (player.offset + 3) % 5 + '" src="img/beards.png" alt="">';
+        // +           '<img class="top z3" src="img/70nose1.png" alt="">';
+
+        
+        buffer += '<img class="top z2 y' + player.offset % 5 + '" src="img/faces.png" alt="">';
+        
+        buffer += '<img class="top z1';
+        if (player.position == "Goalkeeper") {
+            buffer += ' y' + this.gkshirt;
+        }
+        else {
+            buffer += ' y' + this.shirt;
+        }
+        buffer += '" src="img/sprites.png" alt="">';
+
+        if (player.offset % 8 > 6) {
+            buffer += '<img class="top z0 y' + player.offset % 3 + '" src="img/bighair.png" alt="">';
+        }
+
+        buffer += '<img class="bot" src="img/99background.png" alt="">' +
             '</div></td>';
         buffer += "<td style='text-align: left;'>" +
             player.name + "</td><td>" + player.age + "</td><td>" + player.keeper + "</td><td>" + player.defence + "</td><td>" + 
-            player.midfield + "</td><td>" + player.attack + "</td><td>" + player.trait + "</td><td>" + player.wage + " p/w</td><td>";
+            player.midfield + "</td><td>" + player.attack + "</td><td>" + player.trait + "</td><td>£" + player.wage + " p/w</td><td>";
+
         if (this.my) {
+            if (this.freekickTaker === player.id) {
+                buffer += "Freekick taker";
+            }
+            else if (player.position != "Substitute" && $.season.getMatchdaysPlayed() === 0) {
+                buffer += '<button onclick="$.team8.setFreekicktakerById(' + player.id + ');">Assign</button>';
+            }
+            
+        }
+        else {
+            if (this.freekickTaker === player.id) {
+                buffer += "Freekick taker";
+            }
+
+        }
+
+        buffer += "</td><td>";
+
+        if (this.my && $.season.getMatchdaysPlayed() === 0) {
             buffer += this.displayForm(player);
+            buffer += "</td><td>";
+            buffer += '<button onclick="$.team8.releasePlayer(' + player.id + ');">Release player</button>';
+
+            buffer += "</td></tr>";
         }
         else {
             buffer += player.position;
+            buffer += "</td><td /></tr>";
         }
-        buffer += "</td></tr>";
+        this.totalWage += player.wage;
     }, this);
 
     buffer += "</table>";
-    buffer += "Totals: <table><tr><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Total Wage</td><tr>";
+    buffer += "Totals: <table><tr><td>Goalkeeping</td><td>Defence</td><td>Midfield</td><td>Attack</td><td>Total Wage</td>";
+    if (this.my) {
+        buffer += "<td>Max Total Wage</td>";
+    }
+    buffer += "</tr>";
     buffer += "<tr><td>" + this.totalKeeperSkill + "</td><td>" + this.totalDefenderSkill + "</td><td>" +
-        this.totalMidfielderSkill + "</td><td>" + this.totalStrikerSkill + "</td><td>" + this.totalWage + " per week</td></tr>";
+        this.totalMidfielderSkill + "</td><td>" + this.totalStrikerSkill + "</td>";
+    if (this.my && this.totalWage > this.maxWage) {
+        buffer += "<td style='text-align: right; color: " + $.colors["red"] + "';>";
+    }
+    else {
+        buffer += "<td>";
+    }
+
+    //if (this.totalWage >= 1000) {
+       // this.totalwage = this.totalwage/1000 + "," + this.totalwage-(Math.floor(this.totalwage/1000)*1000);
+    //}
+    buffer += "£" + this.totalWage + " per week</td>";
+    
+    if (this.my) {
+        buffer += "<td>£" + this.maxWage + " per week</td>";
+    }
+    buffer += "</tr>";
 
     return buffer;
 //    document.getElementById('team').innerHTML = buffer;
 };
 
-$.Team.prototype.render = function (x, y) {
+$.Team.prototype.render = function () {
     document.getElementById('team').innerHTML = this.generateTeamTable();  
 };
+
 
 $.Team.prototype.displayForm = function (player) {
     var isSub = (player.position === "Substitute") ? "selected" : "";
@@ -378,7 +555,7 @@ $.Team.prototype.displayForm = function (player) {
     var isStriker = (player.position === "Striker") ? "selected" : "";
 
     return '<form id="pos_' + player.id + '" onSubmit="return false;">' +
-        '<select id="select_' + player.id + '" onchange="$.team1.setPosById(' + player.id + ');">' +
+        '<select id="select_' + player.id + '" onchange="$.team8.setPosById(' + player.id + ');">' +
     '<option ' + isSub + ' position="Substitute">Substitute</option>' +
     '<option ' + isGoalkeeper + ' position="Goalkeeper">Goalkeeper</option>' +
     '<option ' + isDefender + ' position="Defender">Defender</option>' +

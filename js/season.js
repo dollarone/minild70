@@ -7,8 +7,29 @@ $.Season = function(teamCount) {
 	this.matchDayCount = ((teamCount-1)*2)
 	this.matchDay = new Array(this.matchDayCount);
 	this.matchDaysPlayed = 0;
-	this.inspectingTeam = 0;
+	this.inspectingTeam = -1;
+	this.speed = 1;
+	this.matchDaysFinished = 0;
 };
+
+$.Season.prototype.finishMatchday = function() {
+	this.matchDaysFinished = this.matchDaysPlayed;
+	$.renderAll();	
+};
+
+$.Season.prototype.getMatchdaysPlayed = function() {
+	return this.matchDaysPlayed;
+};
+
+$.Season.prototype.setSpeed = function(speed) {
+	this.speed = parseInt(speed);
+};
+
+$.Season.prototype.getSpeed = function() {
+	return this.speed;
+};
+
+
 
 $.Season.prototype.addTeam = function (team) {
 	if (this.teamCount < this.maxTeamCount) {
@@ -134,25 +155,117 @@ $.Season.prototype.generateMatches = function() {
 
 
 $.Season.prototype.simSeason = function() {
-	for (var i=0; i<this.matchDayCount; i++) {
-		this.simMatchDay(i);
+	if (this.matchDaysPlayed < this.matchDayCount) {
+		for (var i=this.matchDaysPlayed; i<this.matchDayCount; i++) {
+			this.simMatchDay(i);
+		}
+		this.finishMatchday();
 	}
 };
 
 
 $.Season.prototype.simNextMatchday = function() {
-	this.simMatchDay(this.matchDaysPlayed);
+	if (this.matchDaysFinished === this.matchDaysPlayed) {		
+		if (this.matchDaysPlayed < this.matchDayCount) {
+			this.simMatchDay(this.matchDaysPlayed);
+		}
+	}
 };
 
 $.Season.prototype.simMatchDay = function(day) {
-	for (var i=0; i<this.matchDay[day].length; i++) {
-		console.log("sim matchday " + day + ": " + this.matchDay[day][i].homeTeam.name + "-" + this.matchDay[day][i].awayTeam.name );	
-		this.matchDay[day][i].fastSim();
-		console.log("post sim matchday " + day + ": " + this.matchDay[day][i].homeTeamGoals + "-" + this.matchDay[day][i].awayTeamGoals);	
+
+	if ($.team8.totalWage > $.team8.maxWage) {
+		document.getElementById('news').innerHTML = "<p>You started the season over budget. As a consequence, " + $.team8.name + " went bankrupt and folded. Several people - hard working, regular people - lost their jobs because of you! <br />OH THE HUMANITY.</p.> <br /><br /><p>Game over</p><br /><br />(or you can re-jig your budget and try again)";
+		toggleVisibility('Menu1');
 	}
-	this.matchDaysPlayed++;
-	this.updateTable();
-	this.renderTable();
+	else {
+
+		if ($.team8.getFreekickTaker() == null) {
+			$.team8.assignDefaultFreekickTaker();
+		}
+
+
+		for (var i=0; i<this.matchDay[day].length; i++) {
+		//	console.log("sim matchday " + day + ": " + this.matchDay[day][i].homeTeam.name + "-" + this.matchDay[day][i].awayTeam.name );	
+			this.matchDay[day][i].fastSim();
+		//	console.log("post sim matchday " + day + ": " + this.matchDay[day][i].homeTeamGoals + "-" + this.matchDay[day][i].awayTeamGoals);	
+		}
+		this.matchDaysPlayed++;
+		if (this.speed === 2) {
+			this.finishMatchday();
+		}
+		else {
+			$.renderAll();
+		}
+	}
+};
+
+$.Season.prototype.resetMatchdayData = function() {
+		document.getElementById('matchTeams').innerHTML = "";
+		document.getElementById('matchScore').innerHTML = "";
+		document.getElementById('events').innerHTML = "";
+		document.getElementById('matchTime').innerHTML = "";
+		document.getElementById('nextMatch').innerHTML = "";
+};
+
+$.Season.prototype.getNextMatchDay = function() {
+	if (parseInt(this.speed) === 3) {
+		var buffer = "";
+		for (var days=0; days<this.matchDayCount; days++) {
+			buffer += "<h2>Matchday " + days + "</h2>";
+			for (var i=0; i<this.matchDay[days].length; i++) {
+				buffer += "<br />" + this.matchDay[days][i].homeTeam.name + " - " + this.matchDay[days][i].awayTeam.name;
+				if (days < this.matchDaysFinished) {
+					buffer += " " + this.matchDay[days][i].homeTeamGoals + " - " + this.matchDay[days][i].awayTeamGoals;
+				}
+			}
+			buffer += "<br /><br />";
+		//this.matchDay[day][i].fastSim();
+	//	console.log("post sim matchday " + day + ": " + this.matchDay[day][i].homeTeamGoals + "-" + this.matchDay[day][i].awayTeamGoals);	
+		}
+		document.getElementById('nextMatches').innerHTML = buffer;
+		document.getElementById('matchDay').innerHTML = "";
+		document.getElementById('prevMatches').innerHTML = "";
+		document.getElementById('prevMatchDay').innerHTML = "";
+	}
+	else if (this.matchDaysFinished > this.matchDaysPlayed-1 ) {
+		if (this.matchDaysPlayed < this.matchDayCount) {
+			var buffer = "";
+			for (var i=0; i<this.matchDay[this.matchDaysPlayed].length; i++) {
+				buffer += this.matchDay[this.matchDaysPlayed][i].homeTeam.name + " - " + this.matchDay[this.matchDaysPlayed][i].awayTeam.name + "<br />";
+			//this.matchDay[day][i].fastSim();
+		//	console.log("post sim matchday " + day + ": " + this.matchDay[day][i].homeTeamGoals + "-" + this.matchDay[day][i].awayTeamGoals);	
+			}
+			document.getElementById('nextMatches').innerHTML = buffer;
+			document.getElementById('matchDay').innerHTML = "<h2>Matchday " + parseInt(this.matchDaysPlayed+1) + "</h2>";
+		}
+		else {
+			document.getElementById('nextMatches').innerHTML = "";
+			document.getElementById('matchDay').innerHTML = "";
+		}
+		this.getPrevMatchDayResults();
+
+	}
+
+};
+
+$.Season.prototype.getPrevMatchDayResults = function(day) {
+	if (this.matchDaysFinished > 0 && this.matchDaysPlayed-1 < this.matchDayCount) {
+		var buffer = "";
+		for (var i=0; i<this.matchDay[this.matchDaysPlayed-1].length; i++) {
+			buffer += this.matchDay[this.matchDaysPlayed-1][i].homeTeam.name + " - " + this.matchDay[this.matchDaysPlayed-1][i].awayTeam.name;
+			//if (this.matchDaysPlayed === this.matchDaysFinished) {
+				buffer += " " + this.matchDay[this.matchDaysPlayed-1][i].homeTeamGoals + "-" + this.matchDay[this.matchDaysPlayed-1][i].awayTeamGoals;
+			//}
+			buffer +=  " <br />";
+		//this.matchDay[day][i].fastSim();
+	//	console.log("post sim matchday " + day + ": " + this.matchDay[day][i].homeTeamGoals + "-" + this.matchDay[day][i].awayTeamGoals);	
+		}
+		document.getElementById('prevMatches').innerHTML = buffer;
+		document.getElementById('prevMatchDay').innerHTML = "<h2>Matchday " + this.matchDaysPlayed + "</h2>";
+		
+	}
+
 };
 
 $.Season.prototype.update = function() {
@@ -160,17 +273,14 @@ $.Season.prototype.update = function() {
 };
 
 $.Season.prototype.rendder = function() {
-	console.log("matchday " + 0 + ": " + this.matchDay[0][0].homeTeam.name + "-" + this.matchDay[0][0].awayTeam.name );
+	//console.log("matchday " + 0 + ": " + this.matchDay[0][0].homeTeam.name + "-" + this.matchDay[0][0].awayTeam.name );
+
 
 };
 $.Season.prototype.render = function() {
-	for(var i=0; i<(this.teamCount-1)*2; i++) {
-		for(var j=0; j<(this.teamCount/2); j++) {
-		//	console.log("matchday " + i + ":" + this.matchDay[i][j].homeTeam.name + "-" + this.matchDay[i][j].awayTeam.name);
-//			console.log("matchday " + i + ":\n" + this.matchDay[i]);
-		}
-	}
-	this.renderTable();
+	this.updateTable();
+	this.renderTable(false);
+	this.getNextMatchDay();
 };
 
 $.Season.prototype.getTeam = function(id) {
@@ -184,7 +294,7 @@ $.Season.prototype.getTeam = function(id) {
 
 $.Season.prototype.inspectTeam = function(id) {
 	this.inspectingTeam = id;
-	this.renderTable();
+	this.renderTable(true);
 };
 
 
@@ -207,39 +317,51 @@ $.Season.prototype.inspectPlayerForm = function (player) {
 */
 };
 
-$.Season.prototype.renderTable = function () {
-    if (this.inspectingTeam > 0) {
+$.Season.prototype.renderTable = function (check) {
+    if (this.inspectingTeam > -1) {
         var buffer = this.getTeam(this.inspectingTeam).generateTeamTable();
 
 //        buffer =+ "Back to table link";    in table button or both
         document.getElementById('table').innerHTML = buffer;
         return;
     }
-	var table = this.updateTable();
+	if (this.matchDaysFinished === this.matchDaysPlayed) {
 
-	var buffer = "<h2>Table";
-	if (this.matchDaysPlayed != 0) {
-		buffer += " after matchday " + this.matchDaysPlayed;
+		var table = this.updateTable();
+
+		var buffer = "<h2>Table";
+		if (this.matchDaysPlayed != 0) {
+			buffer += " after matchday " + this.matchDaysPlayed;
+		}
+		else {
+			buffer += " before matchday 1";
+		}
+		buffer += "</h2><table>";
+		var lol = 0;
+		var win = false;
+		table.forEach(function(key) {
+			lol++;
+			var team = this.teams[key];
+			if (check && lol === 1 && team === $.team8) {
+				win = true;
+			}
+			buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td style='text-align: left;'>";
+
+	//	buffer += '<form id="pos_' + team.id + '" onSubmit="return false;">';
+			
+	        buffer += '<a href="#" onclick="$.season.inspectTeam(' + team.id + ');">' + team.name + '</a>';
+
+			buffer += "</td><td>" + this.matchDaysPlayed + 
+			"</td><td>" + team.wins + "</td><td>" + team.draws + "</td><td>" + team.losses + "</td><td>" + 
+			team.goalsFor + "</td><td>" + team.goalsAgainst + "</td><td>" + team.goalsDiff + "</td><td>" + team.points + "</td></tr>";
+		}, this);
+
+	    buffer += "</table>";
+	    document.getElementById('table').innerHTML = buffer;
+	    if (win) {
+	    	document.getElementById('win').innerHTML = "<div style='color: " + $.colors["cloudblue"] + "';>You won the league! Amazing - well done!<br />Thanks for playing Bargainball!<br /><br />";
+	    }
 	}
-	else {
-		buffer += " before matchday 1";
-	}
-	buffer += "</h2><table>";
-	table.forEach(function(key) {
-		var team = this.teams[key];
-		buffer += "<tr style='text-align: right; color: " + $.colors["skyblue"] + ";'>"  + "<td style='text-align: left;'>";
-
-//	buffer += '<form id="pos_' + team.id + '" onSubmit="return false;">';
-		
-        buffer += '<a href="#" onclick="$.season.inspectTeam(' + team.id + ');">' + team.name + '</a>';
-
-		buffer += "</td><td>" + this.matchDaysPlayed + 
-		"</td><td>" + team.wins + "</td><td>" + team.draws + "</td><td>" + team.losses + "</td><td>" + 
-		team.goalsFor + "</td><td>" + team.goalsAgainst + "</td><td>" + team.goalsDiff + "</td><td>" + team.points + "</td></tr>";
-	}, this);
-
-    buffer += "</table>";
-    document.getElementById('table').innerHTML = buffer;
 };
 
 $.Season.prototype.getSortedKeys = function(obj, what) {

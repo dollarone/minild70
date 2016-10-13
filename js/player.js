@@ -13,6 +13,7 @@ $.Player = function(name, age, keeper, defence, midfield, attack, trait, wage) {
     this.attack = attack;
     this.trait = trait;
     this.wage = wage;
+    this.offset = keeper + defence + midfield + attack + this.id;
 };
 
 $.Player.prototype.oldConstructor = function(keeper, star) {
@@ -23,7 +24,7 @@ $.Player.prototype.oldConstructor = function(keeper, star) {
     this.age = 28;
     this.wage = "200";
 
-    this.trait = "";
+/*    this.trait = "";
     if (this.id === 3) {
         this.trait = "Freekick expert";
     }
@@ -44,7 +45,7 @@ $.Player.prototype.oldConstructor = function(keeper, star) {
     if (this.id === 5) {
         this.trait = "Amazing dribbler";
     }
-    
+  **/  
 
     this.color = 'rgba(3, 3, 3, 1)';
     var extra = 0;
