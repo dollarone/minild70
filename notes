@@ -1,0 +1,72 @@
+trait: 
+agressive. yellow card and gives away freekick each match. red every 15th.
+goalscorer: scores one every 2nd match
+dribbler: creates a freekick/corner (alternate) every match
+assist master: will create a goal-chance every 2nd match
+penalty expert: scores every penalty against normal GKs, scores every 2nd against master keepers
+master keeper: save severy penalty except vs penalty experts
+sprinter: will create a goal every game vs defence without sprinters
+form player: stats +10 when in form, -10 when not. is in form when he's scored or created a goal in the last 2 match. not in form when 0 in 3
+freekick supremo: scores every 3rd freekick
+good head: scores every 10th corner when you have more headers, every 20th when equal, none when less. (also helps def, see prev). If you have more headers than opp team, then 10 etc
+box-to-box player: will create a freekick every match but also give away a freekick each match
+great tackler: will last-ditch stop the first chance created each match (even ones coming from traits, e.g. assist master)
+display all stats and conditions for traits
+
+
+ooh this is getting interesting
+
+maybe insted of traits just have lots of stats? e.g. concede penalty: every 10th match. score goal: every 20th match
+
+
+or make it easy
+
+attack - midfield - defence - goalkeeper
+may have: trait 
+
+5 a  side
+striker
+mid mid
+def
+keeper
+
+or:
+striker striker striker striker striker if you want
+
+midfield: determins who wins possession
+every team get a freekick every match? or maybe just the team with posssession
+every team get 1 corner per half + 1 corner per half for possession
+every team gets one chance + 1 for possession 
+
+make sure keeper is worth it. maybe keeper is for free kicks and corners and pens and maybe adds to defense as well
+humm maybe mids add to defense
+maybe mids att to att
+keep it simple. so keeper is for SPs. or maybe he has a low def score that is added
+
+
+chance: is attack higher than def? goal
+
+moneyball?
+statsball?
+
+0-10
+
+
+you can have 3 subs but they only go on if someone's injured. so you can make a team with three nastymen and basically bank on the subs being a bit shit
+
+you can watch in "realtime", fast-play a game, fast-play a season (or 1/2 for the transfer window) or even fastplay X seasons
+the other teams will try to improve their teams by buying 2-3 players that wins them games they lost in the last 1-2 seasons (pref. last)
+different clubs have different cash reserves and budget
+
+in the develop version you start small and take on brucelona and real paris and the mighty london fc
+
+they year is 2016
+
+add some randomly generated face-art
+
+
+
+have newspaper clippings as "cutscenes" for intro/updates/game over
+
+some kind of helper doing the tutorial?
+

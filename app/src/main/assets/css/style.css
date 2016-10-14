@@ -174,8 +174,17 @@ table {
 }
 
 .y12 {
-    clip: rect(768px,64px,852px,0px);
+    clip: rect(768px,64px,832px,0px);
     top: -768px;
+}
+
+.y13 {
+    clip: rect(832px,64px,896px,0px);
+    top: -832px;
+}
+
+.z0 {
+    z-index: 0;    
 }
 
 .z1 {

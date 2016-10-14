@@ -13,6 +13,7 @@ $.Player = function(name, age, keeper, defence, midfield, attack, trait, wage) {
     this.attack = attack;
     this.trait = trait;
     this.wage = wage;
+    this.offset = keeper + defence + midfield + attack + this.id;
 };
 
 $.Player.prototype.oldConstructor = function(keeper, star) {

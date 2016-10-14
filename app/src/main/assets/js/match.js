@@ -68,14 +68,14 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
     while(this.matchState!=6) {
         if (this.matchState === 0) {
             this.matchState = 1;
-            if (this.speed == 1) {
+            if (this.speed === 1) {
                 $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, 0, "Welcome to today's match: " + this.homeTeam.name + " vs " + this.awayTeam.name); 
                 $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, 0, "The ref gets the match going!");
             }
         }
         else if (this.matchState === 4) {
             this.matchState = 5;
-            if (this.speed == 1) {
+            if (this.speed === 1) {
                 $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, 45, "The second half has started!");
             }
         }
@@ -85,26 +85,26 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                 var event = this.matchEvents[this.matchTimePassed];
                 if (event === "regularChanceHome") {
                     this.homeTeamRegularChances++;
-                    if (this.speed == 1) {
+                    if (this.speed === 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, this.homeTeam.name + " breaking through the middle... ");
                     }
                     if (this.homeTeamRegularChances === 1 && this.awayTeam.hasTackler()) {
                         // tackle
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "but a great last-ditch tackle clears the danger!");
                             this.timeout = this.timeoutCount;
                         }
                     }
                     else if (!this.awayTeam.hasKeeper() || this.homeTeam.totalStrikerSkill > this.awayTeam.totalDefenderSkill) {
                         this.homeTeamGoals++;
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "and the shot is cleanly struck and well-aimed: GOAL!");
                             this.timeout = this.timeoutCount;
                         }
 //console.log("TA GOAL regHome");
                     }
                     else {
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "but the shot is high and wide!");
                             this.timeout = this.timeoutCount;
                         }
@@ -112,24 +112,24 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                 }
                 else if (event === "regularChanceAway") {
                     this.awayTeamRegularChances++;
-                    if (this.speed == 1) {
+                    if (this.speed === 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "Excellent play by " + this.awayTeam.name + " here... ");
                     }
                     if (this.awayTeamRegularChances === 1 && this.homeTeam.hasTackler()) {
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "but a last-ditch tackle saves the day!");
                         }
                     }
                     else if (!this.homeTeam.hasKeeper() || this.awayTeam.totalStrikerSkill > this.homeTeam.totalDefenderSkill) {
                         this.awayTeamGoals++;
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "a few good passes creates a 1-on-1 situation: GOAL!");
                             this.timeout = this.timeoutCount;
                         }
 //console.log("TA GOAL regAway");                          
                     }
                     else {
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "but the chance is wasted!");
                             this.timeout = this.timeoutCount;
                         }
@@ -138,13 +138,13 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                 }
                 else if (event === "freeKickHome") {
                     this.homeTeamFreekicks++;
-                    if (this.speed == 1) {
+                    if (this.speed === 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "Free kick to " + this.homeTeam.name + ".");
                     }
                     if (!this.awayTeam.hasKeeper() || ((this.homeTeam.getFreekickTaker().trait === "Freekick expert" || 
                         this.homeTeam.getFreekickTaker().attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0)) {
                         this.homeTeamGoals++;
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "He puts it high and out of the keeper's reach! GOAL!");
                             this.timeout = this.timeoutCount;
                         }
@@ -152,7 +152,7 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
 //console.log("TA GOAL freekickHome");                    
                     }
                     else {
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "But the keeper parries with a great save!");
                             this.timeout = this.timeoutCount;
                         }
@@ -161,13 +161,13 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                 }
                 else if (event === "freeKickAway") {
                     this.awayTeamFreekicks++;
-                    if (this.speed == 1) {
+                    if (this.speed === 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, this.awayTeam.name + " has a free kick in a good position.");
                     }
                     if (!this.homeTeam.hasKeeper() ||  ((this.awayTeam.getFreekickTaker().trait === "Freekick expert" || 
                         this.awayTeam.getFreekickTaker().attack > this.homeTeam.totalKeeperSkill) && this.awayTeamFreekicks % 2 == 0)) {
                         this.awayTeamGoals++;
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "Top corner! What a shot! GOAL!");
                             this.timeout = this.timeoutCount;
                         }
@@ -175,7 +175,7 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
 //console.log("TA GOAL freekickAway");
                     }
                     else {
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "But it's an easy catch for the goalkeeper.");
                             this.timeout = this.timeoutCount;
                         }
@@ -183,14 +183,14 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                 }
                 else if (event === "dribbleChanceHome") {
                     this.homeTeamFreekicks++;
-                    if (this.speed == 1) {
+                    if (this.speed === 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "Some excellent dribbling leads to a free kick for " + this.homeTeam.name + ".");
                     }
 
                     if (!this.awayTeam.hasKeeper() || ((this.homeTeam.getFreekickTaker().trait === "Freekick expert" || 
                         this.homeTeam.getFreekickTaker().attack > this.awayTeam.totalKeeperSkill) && this.homeTeamFreekicks % 2 == 0)) {
                         this.homeTeamGoals++;
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "GOAL! The ball almost takes the net out!");
                             this.timeout = this.timeoutCount;
                         }
@@ -198,7 +198,7 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
 //console.log("TA GOAL dribbleHome");
                     }
                     else {
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "It's hit hard but wide.");
                             this.timeout = this.timeoutCount;
                         }
@@ -249,7 +249,6 @@ console.log("TAfreekick: " + this.awayTeam.freekickTaker.attack + " " + this.awa
                 }
                 else if (event === "cornerChanceAway") {
                     this.awayTeamCorners++;
-console.log("corner number " + this.awayTeamCorners);
                     if (this.speed === 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "A corner is awarded to " + this.awayTeam.name + ".");
                     }
@@ -258,12 +257,10 @@ console.log("corner number " + this.awayTeamCorners);
                         if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "It's a well-rehearsed corner. Headed on and toed in at the back post! GOAL!");
                             this.timeout = this.timeoutCount;
-console.log("goal");
                         }
 //console.log("TA GOAL cornerAway");
                     }
                     else {
-console.log("fail");
                         if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "But the defence has no problem dealing with the corner.");
                             this.timeout = this.timeoutCount;
@@ -277,7 +274,7 @@ console.log("fail");
                     }
                     if (!this.awayTeam.hasKeeper() || (this.homeTeam.countHeaders() > this.awayTeam.countHeaders() && this.homeTeamCorners % 2 === 0)) {
                        this.homeTeamGoals++;
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "It's perfectly met by a massive forehead. GOAL!");
                             this.timeout = this.timeoutCount;
                         }
@@ -304,7 +301,7 @@ console.log("fail");
 //console.log("TA GOAL speedcornerAway");
                     }
                     else {
-                        if (this.speed == 1) {
+                        if (this.speed === 1) {
                             $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "The keeper punches the ball away.");
                             this.timeout = this.timeoutCount;
                         }
@@ -312,7 +309,7 @@ console.log("fail");
                 }
 
                 if (this.matchState === 1 && event === "firstHalfEnds") {
-                    if (this.speed == 1) {
+                    if (this.speed === 1) {
                         $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "First half ends");
                         this.timeout = this.timeoutCount;
                     }
@@ -320,7 +317,7 @@ console.log("fail");
                     this.matchTimePassed = 45;
                 }
                 if (event === "secondHalfEnds") {
-                    if (this.speed == 1) {
+                    if (this.speed === 1) {
                        $.events.addEvent(this.homeTeam.name, this.homeTeamGoals, this.awayTeam.name, this.awayTeamGoals, this.matchTimePassed, "The ref blows his whistle for full time.");
                         this.timeout = this.timeoutCount;
                     }
