@@ -414,15 +414,33 @@ $.Team.prototype.generateTeamTable = function () {
         // ?==pondus face
         buffer += "<tr style='text-align: right; color: " + $.colors["cloudblue"] + ";'>" ;
         buffer += '<td><div class="img-container">' +
-            '<img class="top z8 y' + player.offset % 6 + '" src="img/hair.png" alt="">';
+            '<img class="top z8 y' + player.offset % 7 + '" src="img/hair.png" alt="">';
         
         buffer += '<img class="top z7 y';
+
+        var beard = (player.offset + player.defence) % 5;
+
         if (face === 1) {
             buffer += player.offset % 4;
+            if (beard != 2) {
+                beard = 3;
+            }
+        }
+        else if (face === 0 || face === 2) {
+            var mouth = player.offset % 6;
+            if (mouth === 5) {
+                if (beard != 3) {
+                    beard = 3;
+                }
+            }
+            buffer += mouth;
+
         }
         else {
-            buffer += player.offset % 6;
-
+            buffer += player.offset % 4;
+            if (beard === 0 || beard === 2) {
+                beard = 1;
+            }
         }
         buffer += '" src="img/mouths.png" alt="">';
         
@@ -433,23 +451,20 @@ $.Team.prototype.generateTeamTable = function () {
             buffer += '<img class="top z6 y' + player.offset % 4 + '" src="img/noses.png" alt="">';
         }
 
-        if (false) {
-        buffer +=
-            '<img class="top z5" src="img/40smallpupils.png" alt="">' +
-            '<img class="top z4" src="img/50smalleyes.png" alt="">';
-        }
-
         var eye = (((player.offset + player.id) % 5) * 2) + 1
-        if (player.id === ((6*7) +2)) {//} && player.id % 3 == 0) {
+        if (player.offset-player.id > 7 && player.id % 2 === 3) {//} && player.id % 3 == 0) {
             buffer += '<img class="top z4 y13" src="img/eyespupils.png" alt="">';
             
+        }
+        else if ((face === 0 || face === 3) && player.id % 13 === 0) {
+            buffer += '<img class="top z4 y0" src="img/eyespupils.png" alt="">';
         }
         else {
             buffer += '<img class="top z5 y' + (eye + 1) + '" src="img/eyespupils.png" alt="">';
             buffer += '<img class="top z4 y' + eye + '" src="img/eyespupils.png" alt="">';
         }
 
-        buffer += '<img class="top z3 y' + (player.offset + 3) % 5 + '" src="img/beards.png" alt="">';
+        buffer += '<img class="top z3 y' + beard + '" src="img/beards.png" alt="">';
         // +           '<img class="top z3" src="img/70nose1.png" alt="">';
 
         
@@ -464,8 +479,13 @@ $.Team.prototype.generateTeamTable = function () {
         }
         buffer += '" src="img/sprites.png" alt="">';
 
-        if (player.offset % 8 > 6) {
-            buffer += '<img class="top z0 y' + player.offset % 3 + '" src="img/bighair.png" alt="">';
+        if (player.offset % 7 === 6 ) {
+            if(face === 2 || face === 1) {
+                buffer += '<img class="top z0 y' + ((player.offset % 3)+1) + '" src="img/bighair.png" alt="">';
+            }
+            else {
+                buffer += '<img class="top z0 y' + player.offset % 4 + '" src="img/bighair.png" alt="">';                
+            }
         }
 
         buffer += '<img class="bot" src="img/99background.png" alt="">' +
