@@ -2,6 +2,8 @@
 
 var $ = {};
 
+$.version = "midfield challenge v2"
+
 $.width = 800;
 $.height = 500;
 
