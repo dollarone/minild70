@@ -416,7 +416,7 @@ $.Team.prototype.generateTeamTable = function () {
         // ?==pondus face
         buffer += "<tr style='text-align: right; color: " + $.colors["cloudblue"] + ";'>" ;
         buffer += '<td><div class="img-container">' +
-            '<img class="top z8 y' + player.offset % 7 + '" src="img/hair.png" alt="">';
+            '<img class="top z8 y' + (player.offset-1) % 7 + '" src="img/hair.png" alt="">';
         
         buffer += '<img class="top z7 y';
 
@@ -445,15 +445,16 @@ $.Team.prototype.generateTeamTable = function () {
             }
         }
         buffer += '" src="img/mouths.png" alt="">';
+
+        var eye = (((player.offset + player.id) % 6) * 2) + 1
         
-        if (face === 10) {
+        if (eye === 11) {
             buffer += '<img class="top z6 y' + player.offset % 5 + '" src="img/noses.png" alt="">';
         }
         else {
             buffer += '<img class="top z6 y' + player.offset % 4 + '" src="img/noses.png" alt="">';
         }
 
-        var eye = (((player.offset + player.id) % 5) * 2) + 1
         if (player.offset-player.id > 7 && player.id % 2 === 3) {//} && player.id % 3 == 0) {
             buffer += '<img class="top z4 y13" src="img/eyespupils.png" alt="">';
             
