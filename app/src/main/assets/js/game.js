@@ -2,7 +2,16 @@
 
 var $ = {};
 
-$.version = "challenge 2: def+mid"
+$.version = "menu test";
+
+$.mode = null;
+$.modes = {
+    0:"Challenge 1",
+    1:"Challenge 2",
+    2:"Career"
+};
+
+$.game_started = "notyet";
 
 $.width = 800;
 $.height = 500;
