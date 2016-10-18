@@ -325,28 +325,30 @@ $.Team.prototype.setMy = function (my) {
 };
 
 $.Team.prototype.hasTackler = function () {
+    var ret = false;
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
         var player = this.players[key];
         if (player.position === "Defender" && player.trait === "Great tackler") {
             //console.log("TA has Great tackler" + player.name);
-            return true;
+            ret = true;
         }
     }, this);
-    return false;
+    return ret;
 };
 
 
 $.Team.prototype.hasFastRunner = function () {
+    var ret = false;
     var keys = Object.keys(this.players);
     keys.forEach(function(key) {
         var player = this.players[key];
         if (player.position != "Substitute" && player.position != "Goalkeeper" 
             && player.trait === "Fast runner") {
-            return true;
+            ret = true;
         }
     }, this);
-    return false;
+    return ret;
 };
 
 $.Team.prototype.countHeaders = function () {
@@ -456,7 +458,7 @@ $.Team.prototype.generateTeamTable = function () {
             buffer += '<img class="top z4 y13" src="img/eyespupils.png" alt="">';
             
         }
-        else if ((face === 0 || face === 3) && player.id % 13 === 0) {
+        else if (face != 1 && player.id % 47 === 0) {
             buffer += '<img class="top z4 y0" src="img/eyespupils.png" alt="">';
         }
         else {
