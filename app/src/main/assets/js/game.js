@@ -11,7 +11,7 @@ $.modes = {
     2:"Career"
 };
 
-$.game_started = "notyet";
+$.game_started = '<div class="notyet">';
 
 $.width = 800;
 $.height = 500;
@@ -223,6 +223,9 @@ $.init = function () {
     $.players = [];
     
     $.generateRandomObjects();
+
+    var myElement = document.querySelector("#left");
+    myElement.style.visibility = "hidden";
 
     $.loop();
 };
