@@ -16,6 +16,7 @@ html,body {
     margin: auto;
 }
 
+
 #Menu7 {
     margin: auto;
 }
@@ -246,6 +247,9 @@ table {
     float: left;
     height: 100%;
   }
+  #notyet {
+    visibility: hidden;
+  }
   #sidebar {
     width: 150px;
     float: right;
@@ -284,6 +288,11 @@ table {
     float: left;
   }
   #news {
+    padding-left: 300px;
+    padding-right: 300px;
+  }
+
+  #new_game {
     padding-left: 300px;
     padding-right: 300px;
   }

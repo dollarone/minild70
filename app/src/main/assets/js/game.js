@@ -11,7 +11,7 @@ $.modes = {
     2:"Career"
 };
 
-$.game_started = '<div class="notyet">';
+$.game_started = -1;
 
 $.width = 800;
 $.height = 500;
@@ -205,8 +205,6 @@ $.timer = 0;
 
 $.timeout = 100;
 
-$.entities = [];
-
 $.stop = false;
 $.current_player = 0;
 
@@ -220,12 +218,14 @@ $.init = function () {
     $.canvas.height = $.height;
     $.ctx = $.canvas.getContext('2d');
 */
-    $.players = [];
-    
-    $.generateRandomObjects();
+ 
 
-    var myElement = document.querySelector("#left");
-    myElement.style.visibility = "hidden";
+    if ($.game_started === -1) {
+        var myElement = document.querySelector("#left");
+        myElement.style.visibility = "hidden";
+    }
+
+    $.addMenuButtons();
 
     $.loop();
 };
@@ -249,7 +249,10 @@ $.loop = function () {
       //draw();
     }, 1000/FPS);
 };
-$.generateRandomObjects = function () {
+$.playChallenge1 = function () {
+    $.players = [];
+    $.current_player = 0;
+
     $.entities = [];
     $.team1 = $.generateTeam1();
     $.team2 = $.generateTeam2();
@@ -351,6 +354,102 @@ $.generateRandomObjects = function () {
 
 
     $.transfer.render();
+    $.setMenuVisible();
+};
+
+$.playChallenge2 = function () {
+    $.players = [];
+    $.current_player = 0;
+
+    $.entities = [];
+    $.team1 = $.generateTeam1();
+    $.team2 = $.generateTeam2();
+    $.team3 = $.generateTeam3();
+    $.team4 = $.generateTeam3();
+    $.team5 = $.generateTeam3();
+    $.team6 = $.generateTeam3();
+    $.team7 = $.generateTeam3();
+    $.team8 = $.generateTeam8();
+    
+    $.team1.setMy(false);
+    $.team2.setMy(false);
+    $.team3.setMy(false);
+    $.team4.setMy(false);
+    $.team5.setMy(false);
+    $.team6.setMy(false);
+    $.team7.setMy(false);
+
+    $.events = new $.Event();
+    $.season = new $.Season(4);
+    $.season.addTeam($.team1);
+    $.season.addTeam($.team2);
+    $.season.addTeam($.team3);
+    $.season.addTeam($.team8);
+
+    $.season.generateMatches();
+    
+    $.team8.render();
+
+    $.addPlayNextMatchButton();
+    $.addPlaySeasonButton();
+
+    $.season.render();
+
+    $.transfer = new $.Transfer();
+
+    $.generateSpecificPlayer(32, 0, 0, 6, 0, "", 1500);
+    $.generateSpecificPlayer(29, 0, 0, 0, 5, "", 1000);
+    $.generateSpecificPlayer(33, 4, 0, 0, 0, "", 500);
+    $.generateSpecificPlayer(27, 3, 1, 0, 0, "", 600);
+    $.generateSpecificPlayer(33, 0, 4, 0, 0, "Excellent header", 1000);
+    $.generateSpecificPlayer(23, 0, 3, 0, 0, "", 400);
+    $.generateSpecificPlayer(19, 0, 0, 4, 0, "", 600);
+    $.generateSpecificPlayer(27, 0, 0, 7, 0, "Freekick expert", 3100);
+    $.generateSpecificPlayer(33, 0, 4, 0, 0, "", 500);
+    $.generateSpecificPlayer(28, 0, 4, 2, 0, "Excellent header", 2100);
+    $.generateSpecificPlayer(25, 0, 1, 4, 0, "Fast runner", 1500);
+    $.generateSpecificPlayer(24, 0, 0, 0, 6, "", 1600);
+    $.generateSpecificPlayer(33, 0, 3, 0, 0, "Freekick expert", 800);
+    $.generateSpecificPlayer(32, 0, 3, 1, 0, "", 500);
+    $.generateSpecificPlayer(22, 0, 7, 0, 0, "", 2600);
+    $.generateSpecificPlayer(32, 6, 0, 0, 0, "", 1500);
+    $.generateSpecificPlayer(34, 0, 0, 0, 2, "", 150);
+    $.generateSpecificPlayer(32, 0, 5, 0, 0, "Fast runner", 1400);
+    $.generateSpecificPlayer(29, 0, 0, 5, 0, "Amazing dribbler", 1500);
+    $.generateSpecificPlayer(33, 0, 0, 3, 0, "", 300);
+    $.generateSpecificPlayer(22, 0, 2, 4, 0, "", 1600);
+    $.generateSpecificPlayer(21, 0, 6, 0, 0, "Great tackler", 2100);
+    $.generateSpecificPlayer(37, 3, 0, 0, 0, "", 300);
+    $.generateSpecificPlayer(29, 0, 0, 0, 6, "Excellent header", 2100);
+    $.generateSpecificPlayer(34, 0, 2, 2, 1, "", 900);
+    $.generateSpecificPlayer(33, 0, 1, 5, 0, "", 1500);
+    $.generateSpecificPlayer(33, 0, 0, 1, 3, "", 500);
+    $.generateSpecificPlayer(30, 0, 4, 0, 0, "", 600);
+    $.generateSpecificPlayer(31, 0, 3, 3, 0, "Excellent header", 2000);
+    $.generateSpecificPlayer(31, 0, 0, 0, 5, "", 900);
+    $.generateSpecificPlayer(30, 5, 0, 0, 0, "", 1000);
+    $.generateSpecificPlayer(21, 0, 4, 0, 0, "Fast runner", 1100);
+    $.generateSpecificPlayer(32, 0, 1, 3, 0, "", 500);
+    $.generateSpecificPlayer(20, 7, 0, 0, 0, "", 2600);
+    $.generateSpecificPlayer(23, 0, 0, 5, 0, "", 1000);
+    $.generateSpecificPlayer(25, 0, 0, 1, 4, "", 1000);
+    $.generateSpecificPlayer(28, 0, 0, 1, 5, "Fast runner", 2100);
+    $.generateSpecificPlayer(30, 2, 0, 0, 0, "", 200);
+    $.generateSpecificPlayer(23, 0, 0, 5, 1, "", 1600);
+    $.generateSpecificPlayer(34, 0, 0, 3, 0, "Excellent header", 800);
+    $.generateSpecificPlayer(23, 0, 0, 0, 7, "Amazing dribbler", 3100);
+    $.generateSpecificPlayer(30, 0, 2, 0, 0, "", 200);
+    $.generateSpecificPlayer(31, 0, 2, 3, 2, "", 900);
+
+
+    $.transfer.render();
+    $.setMenuVisible();
+};
+
+$.setMenuVisible = function () {
+    var myElement = document.querySelector("#left");
+    myElement.style.visibility = "visible";
+    toggleVisibility("Menu2");
 };
 
 $.generatePlayer = function() {
@@ -358,7 +457,7 @@ $.generatePlayer = function() {
     $.players.push(player);
     $.transfer.addPlayer(player);
     $.current_player++;
-}
+};
 
 $.generateSpecificPlayer = function(age,keeper,defence,midfield,attack,trait,wage) {
     var player = new $.Player($.playerFirstNames[$.current_player%64] + " " + $.playerLastNames[$.current_player%79], age, keeper, defence, midfield, attack, trait, wage);
@@ -392,6 +491,15 @@ $.addPlayNextMatchButton = function() {
         buffer = '<button onclick="$.playNextMatchday()">Play next match</button>';
     }
     document.getElementById('playNextMatchButton').innerHTML = buffer;    
+
+};
+
+$.addMenuButtons = function() {
+
+    var buffer = "";
+    buffer += '<button onclick="$.playChallenge1()">Play Challenge 1</button>';
+    buffer += '<br /><button onclick="$.playChallenge2()">Play Challenge 2</button>';
+    document.getElementById('menuButtons').innerHTML = buffer;    
 
 };
 

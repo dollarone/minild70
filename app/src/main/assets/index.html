@@ -37,8 +37,8 @@ function handleShirtClick(myRadio) {
 function handleGkshirtClick(myRadio) {
   $.team8.setGkshirt(myRadio.value);
 }
-var divs = ["Menu1", "Menu2", "Menu3", "Menu4", "Menu5", "Menu6", "Menu7"];
-var visibleDivId = "Menu1";
+var divs = ["Menu1", "Menu2", "Menu3", "Menu4", "Menu5", "Menu6", "Menu7", "Menu8"];
+var visibleDivId = "Menu8";
 function toggleVisibility(divId) {
   if(visibleDivId === divId) {
     //visibleDivId = null;
@@ -83,34 +83,14 @@ function hideNonVisibleDivs() {
                   <a href="#" onclick="toggleVisibility('Menu6'); document.getElementById('updated').innerHTML = '';">Options</a>
                   </div><div class="button">
                   <a href="#" onclick="toggleVisibility('Menu7');">Rules</a>
+                  </div><div class="button">
+                  <a href="#" onclick="toggleVisibility('Menu8');">Main Menu</a>
                   </div>
                 </div>
               </div>
               <div id="main">
                 
-                <div id="Menu1">
-                  <br />
-                  <div><h2>News</h2></div>
-                  <br />
-                  <div id="news">
-<p>
-It's 2016 and football has for a long time been completely figured out by statisticians and big computers. One can now calculate the outcome of a match - or even a season - by looking at the team and players' stats and probabilities. 
-</p>
-<p>
-One might think this would lead to football becoming boring and no longer interesting; but instead the opposite has happened, as now clever use of the stats can allow smaller and less rich clubs to succeed through analysis and statistics. 
-</p>
-<p>You have just been appointed manager of Sherwood Forest, who finished last in their division last year. However, the board has given you complete control over the club, in the hope that you can use your statistical powers to bring glory to the club. 
-</p>
-<p>
-You can customize your club under Options; view your current players and set the lineup under My Team; give trials/contracts to players without clubs in the Transfer section, and play matches under Matches.</p>
-<p>
-Note that no further transfers or changes in lineup can be made once the season has started. You must also stay within the budget the board has given you, or the club will go bankrupt.</p>
-<p>A good tip is to read the Rules, as they might assist you in hiring the right players to achieve glory for the club once again. However, because of your budget, you will have to make sure every player fits with your overall tactic.</p>
-
-<p>Welcome to Bargainball!
-</p>
-                  </div>
-                  <br />
+                <div id="Menu1" style="display: none;">
                 </div>
                 <div id="Menu2" style="display: none;">
                   <br />
@@ -337,6 +317,32 @@ Ah! that part, at least, is easy. It's 2016 and statistics have finally conquere
 <p>You can choose which positions your 5 players should play (maximum one goalkeeper). </p>
 <p>Note that you are operating on a budget, so consider the above information when building your team ...</p><br />
                   
+                </div>
+                <div id="Menu8">
+                  <br />
+                  <div><h2>Main Menu</h2></div>
+                  <br />
+                  <div id="new_game">
+<p>
+It's 2016 and football has for a long time been completely figured out by statisticians and big computers. One can now calculate the outcome of a match - or even a season - by looking at the team and players' stats and probabilities. 
+</p>
+<p>
+One might think this would lead to football becoming boring and no longer interesting; but instead the opposite has happened, as now clever use of the stats can allow smaller and less rich clubs to succeed through analysis and statistics. 
+</p>
+<p>You have just been appointed manager of Sherwood Forest, who finished last in their division last year. However, the board has given you complete control over the club, in the hope that you can use your statistical powers to bring glory to the club. 
+</p>
+<p>
+You can customize your club under Options; view your current players and set the lineup under My Team; give trials/contracts to players without clubs in the Transfer section, and play matches under Matches.</p>
+<p>
+Note that no further transfers or changes in lineup can be made once the season has started. You must also stay within the budget the board has given you, or the club will go bankrupt.</p>
+<p>A good tip is to read the Rules, as they might assist you in hiring the right players to achieve glory for the club once again. However, because of your budget, you will have to make sure every player fits with your overall tactic.</p>
+
+<p>Welcome to Bargainball!
+</p>
+                  </div>
+                  <div id="menuButtons"></div>
+                  <br />
+
                 </div>  
               </div>
             </div>
